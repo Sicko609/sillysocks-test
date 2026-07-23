@@ -92,6 +92,14 @@ body {
 
 /* --- SCREEN 1: HERO (LOADING/ENTRY) --- */
 #hero-screen { display: flex; opacity: 1; transform: scale(1); cursor: pointer; position: relative; }
+/* Adding an active state for visual feedback on mobile tap */
+#hero-screen:active .hero-logo { transform: scale(0.95); }
+
+/* The invisible overlay guarantees clicks register on the hero screen even on iOS */
+.hero-click-overlay {
+  position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+  z-index: 5; cursor: pointer;
+}
 
 .hero-logo { 
   font-family: var(--font-main); font-weight: 900; font-size: clamp(45px, 12vw, 120px); 
@@ -102,6 +110,7 @@ body {
   margin-bottom: 10px; z-index: 10; padding: 0 15px; position: relative;
   filter: drop-shadow(0 10px 20px rgba(255,0,127,0.4));
   letter-spacing: -3px; animation: rainbowFlow 5s ease infinite;
+  transition: transform 0.2s ease;
 }
 @keyframes rainbowFlow { 0% {background-position: 0% 50%} 50% {background-position: 100% 50%} 100% {background-position: 0% 50%} }
 
@@ -148,6 +157,7 @@ body {
 }
 input:checked + .slider { background-color: var(--accent-cyan); border-color: var(--accent-cyan); box-shadow: inset 0 0 10px rgba(0,0,0,0.2); }
 input:checked + .slider:before { transform: translateX(18px); background-color: #fff; box-shadow: 0 0 10px rgba(255,255,255,0.8); }
+
 
 /* --- CUTE GLASS BOX --- */
 .glass-box { 
@@ -356,7 +366,6 @@ input:checked + .slider:before { transform: translateX(18px); background-color: 
 .ig-float-btn:hover { transform: scale(1.15) rotate(15deg); box-shadow: 0 15px 40px rgba(220, 39, 67, 0.6); }
 .ig-float-btn svg { width: 34px; height: 34px; fill: #fff; }
 
-
 /* ===========================================
    THE PIXELATED RETRO CAT (SCALED FOR MOBILE)
 =========================================== */
@@ -426,7 +435,7 @@ input:checked + .slider:before { transform: translateX(18px); background-color: 
   100% { transform: translateY(110vh) rotate(720deg); opacity: 0;}
 }
 
-/* --- MOBILE SPECIFIC FIXES (Shrink Cat & IG Button) --- */
+/* --- MOBILE SPECIFIC FIXES --- */
 @media(max-width: 768px) {
   .input-row { flex-direction: column; align-items: stretch; }
   .retro-btn { padding: 20px; font-size: 14px; }
@@ -439,9 +448,9 @@ input:checked + .slider:before { transform: translateX(18px); background-color: 
   .audio-label { font-size: 10px; }
   .buy-btn { font-size: 16px; padding: 20px; }
   
-  /* Make IG button compact so it doesn't block the screen */
-  .ig-float-btn { width: 45px; height: 45px; bottom: 15px; right: 15px; }
-  .ig-float-btn svg { width: 22px; height: 22px; }
+  /* Make IG button compact */
+  .ig-float-btn { width: 50px; height: 50px; bottom: 15px; right: 15px; }
+  .ig-float-btn svg { width: 24px; height: 24px; }
   
   /* Make Pixel Cat compact */
   #mascot-container { bottom: 15px; left: 15px; }
@@ -457,7 +466,10 @@ input:checked + .slider:before { transform: translateX(18px); background-color: 
 <canvas id="bgCanvas"></canvas>
 
 <!-- SCREEN 1: HERO SECTION -->
-<div id="hero-screen" class="screen-layer visible">
+<!-- Added direct click and touch handlers to the full screen to prevent Safari/Vercel mobile bugs -->
+<div id="hero-screen" class="screen-layer visible" onclick="leaveHero(event)">
+  <!-- Invisible overlay to guarantee touch target -->
+  <div class="hero-click-overlay" ontouchstart="leaveHero(event)"></div>
   
   <!-- SLEEK GLASS AUDIO TOGGLE SWITCH -->
   <div class="audio-wrapper" id="audioToggleContainer" onclick="toggleAudio(event)">
@@ -754,8 +766,6 @@ function resizeCanvas() {
   height = canvas.height = window.innerHeight;
   isMobile = width < 768;
   mouse.radius = isMobile ? 250 : 450;
-  
-  // Instantly apply correct positions on resize
   resetMascot();
 }
 window.addEventListener('resize', resizeCanvas);
@@ -764,7 +774,7 @@ resizeCanvas();
 function updateInteraction(x, y) {
   mouse.x = x;
   mouse.y = y;
-  updateMascotLook(x, y); 
+  updateMascotLook(x, y);
 }
 window.addEventListener('mousemove', (e) => updateInteraction(e.clientX, e.clientY));
 window.addEventListener('touchstart', (e) => updateInteraction(e.touches[0].clientX, e.touches[0].clientY), {passive: true});
@@ -785,78 +795,79 @@ for(let i=0; i<40; i++) {
 
 let time = 0;
 function drawCanvas() {
-  ctx.clearRect(0, 0, width, height);
-  time += 0.002;
+  try {
+    ctx.clearRect(0, 0, width, height);
+    time += 0.002;
 
-  let isLight = document.body.getAttribute('data-theme') === 'light';
-  let lineCol1 = isLight ? 'rgba(219, 39, 119, 0.2)' : 'rgba(0, 240, 255, 0.2)'; 
-  let lineCol2 = isLight ? 'rgba(2, 132, 199, 0.2)' : 'rgba(255, 0, 127, 0.2)'; 
+    let isLight = document.body.getAttribute('data-theme') === 'light';
+    let lineCol1 = isLight ? 'rgba(219, 39, 119, 0.2)' : 'rgba(0, 240, 255, 0.2)'; 
+    let lineCol2 = isLight ? 'rgba(2, 132, 199, 0.2)' : 'rgba(255, 0, 127, 0.2)'; 
 
-  let spacing = isMobile ? 80 : 100;
-  let cols = Math.floor(width / spacing) + 2;
-  let rows = Math.floor(height / spacing) + 2;
+    let spacing = isMobile ? 80 : 100;
+    let cols = Math.floor(width / spacing) + 2;
+    let rows = Math.floor(height / spacing) + 2;
 
-  ctx.lineWidth = 1.5;
+    ctx.lineWidth = 1.5;
 
-  for (let r = 0; r < rows; r++) {
-    ctx.beginPath();
-    ctx.strokeStyle = (r % 2 === 0) ? lineCol1 : lineCol2;
-    for (let c = 0; c < cols; c++) {
-      let x = c * spacing;
-      let y = r * spacing + Math.sin(c * 0.4 + time) * 25;
-
-      let dx = x - mouse.x;
-      let dy = y - mouse.y;
-      let dist = Math.sqrt(dx * dx + dy * dy);
-
-      if (dist < mouse.radius) {
-        let force = Math.pow((1 - dist / mouse.radius), 2);
-        let angle = Math.atan2(dy, dx);
-        x += Math.cos(angle) * force * 70;
-        y += Math.sin(angle) * force * 70;
-      }
-
-      if (c === 0) ctx.moveTo(x, y);
-      else ctx.bezierCurveTo(x - spacing/2, y, x - spacing/2, y, x, y);
-    }
-    ctx.stroke();
-  }
-
-  for (let c = 0; c < cols; c++) {
-    ctx.beginPath();
-    ctx.strokeStyle = (c % 2 === 0) ? lineCol2 : lineCol1;
     for (let r = 0; r < rows; r++) {
-      let x = c * spacing + Math.cos(r * 0.4 + time) * 25;
-      let y = r * spacing;
+      ctx.beginPath();
+      ctx.strokeStyle = (r % 2 === 0) ? lineCol1 : lineCol2;
+      for (let c = 0; c < cols; c++) {
+        let x = c * spacing;
+        let y = r * spacing + Math.sin(c * 0.4 + time) * 25;
 
-      let dx = x - mouse.x;
-      let dy = y - mouse.y;
-      let dist = Math.sqrt(dx * dx + dy * dy);
+        let dx = x - mouse.x;
+        let dy = y - mouse.y;
+        let dist = Math.sqrt(dx * dx + dy * dy);
 
-      if (dist < mouse.radius) {
-        let force = Math.pow((1 - dist / mouse.radius), 2);
-        let angle = Math.atan2(dy, dx);
-        x += Math.cos(angle) * force * 70;
-        y += Math.sin(angle) * force * 70;
+        if (dist < mouse.radius) {
+          let force = Math.pow((1 - dist / mouse.radius), 2);
+          let angle = Math.atan2(dy, dx);
+          x += Math.cos(angle) * force * 70;
+          y += Math.sin(angle) * force * 70;
+        }
+
+        if (c === 0) ctx.moveTo(x, y);
+        else ctx.bezierCurveTo(x - spacing/2, y, x - spacing/2, y, x, y);
       }
-
-      if (r === 0) ctx.moveTo(x, y);
-      else ctx.bezierCurveTo(x, y - spacing/2, x, y - spacing/2, x, y);
+      ctx.stroke();
     }
-    ctx.stroke();
-  }
 
-  particles.forEach(p => {
-    p.y -= p.speedY;
-    p.x += Math.sin(time * 5 + p.y * 0.01) * 0.8;
-    if(p.y < -20) { p.y = height + 20; p.x = Math.random() * width; }
-    
-    ctx.fillStyle = isLight ? `rgba(2, 132, 199, ${p.alpha})` : `rgba(0, 240, 255, ${p.alpha})`; 
-    ctx.beginPath();
-    ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-    ctx.fill();
-  });
+    for (let c = 0; c < cols; c++) {
+      ctx.beginPath();
+      ctx.strokeStyle = (c % 2 === 0) ? lineCol2 : lineCol1;
+      for (let r = 0; r < rows; r++) {
+        let x = c * spacing + Math.cos(r * 0.4 + time) * 25;
+        let y = r * spacing;
 
+        let dx = x - mouse.x;
+        let dy = y - mouse.y;
+        let dist = Math.sqrt(dx * dx + dy * dy);
+
+        if (dist < mouse.radius) {
+          let force = Math.pow((1 - dist / mouse.radius), 2);
+          let angle = Math.atan2(dy, dx);
+          x += Math.cos(angle) * force * 70;
+          y += Math.sin(angle) * force * 70;
+        }
+
+        if (r === 0) ctx.moveTo(x, y);
+        else ctx.bezierCurveTo(x, y - spacing/2, x, y - spacing/2, x, y);
+      }
+      ctx.stroke();
+    }
+
+    particles.forEach(p => {
+      p.y -= p.speedY;
+      p.x += Math.sin(time * 5 + p.y * 0.01) * 0.5;
+      if(p.y < -20) { p.y = height + 20; p.x = Math.random() * width; }
+      
+      ctx.fillStyle = isLight ? `rgba(2, 132, 199, ${p.alpha})` : `rgba(0, 240, 255, ${p.alpha})`; 
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+      ctx.fill();
+    });
+  } catch(e) {}
   requestAnimationFrame(drawCanvas);
 }
 drawCanvas();
@@ -874,114 +885,124 @@ let mascotDanceInterval;
 let isMascotHappy = false;
 
 function updateMascotLook(cursorX, cursorY) {
-  if (isMascotHappy) return; 
-  
-  const rect = mascotContainer.getBoundingClientRect();
-  const mascotX = rect.left + rect.width / 2;
-  const mascotY = rect.top + rect.height / 2;
-  
-  const dx = cursorX - mascotX;
-  const dy = cursorY - mascotY;
-  
-  const maxDist = Math.max(window.innerWidth, window.innerHeight) / 2;
-  let normX = (dx / maxDist) * 3; 
-  let normY = (dy / maxDist) * 3;
-  
-  normX = Math.max(-2, Math.min(2, normX));
-  normY = Math.max(-2, Math.min(2, normY));
-  
-  pupilL.setAttribute('x', 11 + normX);
-  pupilL.setAttribute('y', 13 + normY);
-  pupilR.setAttribute('x', 19 + normX);
-  pupilR.setAttribute('y', 13 + normY);
-  
-  const tiltX = (dx / window.innerWidth) * 40; 
-  const tiltY = (dy / window.innerHeight) * 40;
-  mascotBody.style.transform = `perspective(300px) rotateX(${-tiltY}deg) rotateY(${tiltX}deg)`;
+  try {
+    if (isMascotHappy) return; 
+    
+    const rect = mascotContainer.getBoundingClientRect();
+    const mascotX = rect.left + rect.width / 2;
+    const mascotY = rect.top + rect.height / 2;
+    
+    const dx = cursorX - mascotX;
+    const dy = cursorY - mascotY;
+    
+    const maxDist = Math.max(window.innerWidth, window.innerHeight) / 2;
+    let normX = (dx / maxDist) * 3; 
+    let normY = (dy / maxDist) * 3;
+    
+    normX = Math.max(-2, Math.min(2, normX));
+    normY = Math.max(-2, Math.min(2, normY));
+    
+    if(pupilL && pupilR) {
+      pupilL.setAttribute('x', 11 + normX);
+      pupilL.setAttribute('y', 13 + normY);
+      pupilR.setAttribute('x', 19 + normX);
+      pupilR.setAttribute('y', 13 + normY);
+    }
+    
+    const tiltX = (dx / window.innerWidth) * 40; 
+    const tiltY = (dy / window.innerHeight) * 40;
+    mascotBody.style.transform = `perspective(300px) rotateX(${-tiltY}deg) rotateY(${tiltX}deg)`;
+  } catch(e) {}
 }
 
 function resetMascotLook() {
-  if (!isMascotHappy) {
-    mascotBody.style.transform = 'perspective(300px) rotateX(0deg) rotateY(0deg)';
-    pupilL.setAttribute('x', 11);
-    pupilL.setAttribute('y', 13);
-    pupilR.setAttribute('x', 19);
-    pupilR.setAttribute('y', 13);
-  }
+  try {
+    if (!isMascotHappy) {
+      mascotBody.style.transform = 'perspective(300px) rotateX(0deg) rotateY(0deg)';
+      if(pupilL && pupilR) {
+        pupilL.setAttribute('x', 11);
+        pupilL.setAttribute('y', 13);
+        pupilR.setAttribute('x', 19);
+        pupilR.setAttribute('y', 13);
+      }
+    }
+  } catch(e) {}
 }
 
 function makeMascotEuphoric() {
-  isMascotHappy = true;
-  mascotContainer.classList.remove('mascot-idle');
-  mascotContainer.classList.add('mascot-euphoric');
-  
-  mascotBody.style.transform = 'none'; 
-  
-  document.getElementById('cat-tail-idle').style.display = 'none';
-  document.getElementById('cat-tail-happy').style.display = 'block';
-  document.getElementById('cat-tears').style.display = 'none';
-  document.getElementById('cat-blush').style.display = 'block';
-  document.getElementById('cat-mouth-idle').style.display = 'none';
-  document.getElementById('cat-mouth-happy').style.display = 'block';
-  
-  pupilL.setAttribute('x', 11);
-  pupilL.setAttribute('y', 13);
-  pupilR.setAttribute('x', 19);
-  pupilR.setAttribute('y', 13);
-  
-  mascotSpeech.innerText = "OMG YAY!! THANK YOU!! 💖✨";
-  mascotSpeech.style.color = "var(--accent-yellow)";
-  
-  for(let i=0; i<80; i++) {
-    let conf = document.createElement('div');
-    conf.className = 'confetti';
-    conf.style.left = Math.random() * 100 + 'vw';
-    conf.style.background = `hsl(${Math.random() * 360}, 100%, 50%)`;
-    conf.style.animationDuration = (Math.random() * 2 + 2) + 's';
-    conf.style.animationDelay = (Math.random() * 1) + 's';
-    document.body.appendChild(conf);
-    setTimeout(() => conf.remove(), 4000); 
-  }
-  
-  if(audioEnabled) {
-    playTone(880, 'square', 0.1);
-    setTimeout(() => playTone(1046, 'square', 0.1), 150);
-    setTimeout(() => playTone(1318, 'square', 0.1), 300);
-    setTimeout(() => playTone(1567, 'square', 0.2), 450);
-  }
-  
-  mascotDanceInterval = setInterval(() => {
-    const maxX = window.innerWidth - 120;
-    const maxY = window.innerHeight - 150;
-    mascotContainer.style.left = (Math.random() * maxX + 20) + 'px';
-    mascotContainer.style.bottom = (Math.random() * maxY + 40) + 'px';
-  }, 600);
+  try {
+    isMascotHappy = true;
+    mascotContainer.classList.remove('mascot-idle');
+    mascotContainer.classList.add('mascot-euphoric');
+    
+    mascotBody.style.transform = 'none'; 
+    
+    document.getElementById('cat-tail-idle').style.display = 'none';
+    document.getElementById('cat-tail-happy').style.display = 'block';
+    document.getElementById('cat-tears').style.display = 'none';
+    document.getElementById('cat-blush').style.display = 'block';
+    document.getElementById('cat-mouth-idle').style.display = 'none';
+    document.getElementById('cat-mouth-happy').style.display = 'block';
+    
+    if(pupilL && pupilR) {
+      pupilL.setAttribute('x', 11);
+      pupilL.setAttribute('y', 13);
+      pupilR.setAttribute('x', 19);
+      pupilR.setAttribute('y', 13);
+    }
+    
+    mascotSpeech.innerText = "OMG YAY!! THANK YOU!! 💖✨";
+    mascotSpeech.style.color = "var(--accent-yellow)";
+    
+    for(let i=0; i<80; i++) {
+      let conf = document.createElement('div');
+      conf.className = 'confetti';
+      conf.style.left = Math.random() * 100 + 'vw';
+      conf.style.background = `hsl(${Math.random() * 360}, 100%, 50%)`;
+      conf.style.animationDuration = (Math.random() * 2 + 2) + 's';
+      conf.style.animationDelay = (Math.random() * 1) + 's';
+      document.body.appendChild(conf);
+      setTimeout(() => conf.remove(), 4000); 
+    }
+    
+    if(audioEnabled) {
+      playTone(880, 'square', 0.1);
+      setTimeout(() => playTone(1046, 'square', 0.1), 150);
+      setTimeout(() => playTone(1318, 'square', 0.1), 300);
+      setTimeout(() => playTone(1567, 'square', 0.2), 450);
+    }
+    
+    mascotDanceInterval = setInterval(() => {
+      const maxX = window.innerWidth - 120;
+      const maxY = window.innerHeight - 150;
+      mascotContainer.style.left = (Math.random() * maxX + 20) + 'px';
+      mascotContainer.style.bottom = (Math.random() * maxY + 40) + 'px';
+    }, 600);
+  } catch(e) {}
 }
 
 function resetMascot() {
-  isMascotHappy = false;
-  clearInterval(mascotDanceInterval);
-  
-  // Respect mobile responsive bounds 
-  mascotContainer.style.left = isMobile ? '15px' : '30px';
-  mascotContainer.style.bottom = isMobile ? '15px' : '30px';
-  
-  mascotContainer.classList.remove('mascot-euphoric');
-  mascotContainer.classList.add('mascot-idle');
-  
-  document.getElementById('cat-tail-idle').style.display = 'block';
-  document.getElementById('cat-tail-happy').style.display = 'none';
-  document.getElementById('cat-tears').style.display = 'block';
-  document.getElementById('cat-blush').style.display = 'none';
-  document.getElementById('cat-mouth-idle').style.display = 'block';
-  document.getElementById('cat-mouth-happy').style.display = 'none';
-  
-  mascotSpeech.innerText = "Waiting for order... 🥺";
-  mascotSpeech.style.color = "var(--text)";
+  try {
+    isMascotHappy = false;
+    clearInterval(mascotDanceInterval);
+    
+    mascotContainer.style.left = isMobile ? '15px' : '30px';
+    mascotContainer.style.bottom = isMobile ? '15px' : '30px';
+    
+    mascotContainer.classList.remove('mascot-euphoric');
+    mascotContainer.classList.add('mascot-idle');
+    
+    document.getElementById('cat-tail-idle').style.display = 'block';
+    document.getElementById('cat-tail-happy').style.display = 'none';
+    document.getElementById('cat-tears').style.display = 'block';
+    document.getElementById('cat-blush').style.display = 'none';
+    document.getElementById('cat-mouth-idle').style.display = 'block';
+    document.getElementById('cat-mouth-happy').style.display = 'none';
+    
+    mascotSpeech.innerText = "Waiting for order... 🥺";
+    mascotSpeech.style.color = "var(--text)";
+  } catch(e) {}
 }
-
-// Set initial mascot position
-resetMascot();
 
 // ==========================================
 // AMBIENT AUDIO ENGINE (Soft Lounge Jazz Background)
@@ -994,74 +1015,79 @@ let jazzInterval;
 let jazzBeat = 0;
 
 function toggleAudio(e) {
-  if(e) e.stopPropagation(); 
-  
-  audioEnabled = !audioEnabled;
-  const checkbox = document.getElementById('audioCheckbox');
-  const labelText = document.getElementById('audioLabelText');
-  
-  checkbox.checked = audioEnabled;
-  
-  if (audioEnabled) {
-    if(!audioCtx) {
-      const AudioContext = window.AudioContext || window.webkitAudioContext;
-      audioCtx = new AudioContext();
+  try {
+    if(e) e.stopPropagation(); 
+    
+    audioEnabled = !audioEnabled;
+    const checkbox = document.getElementById('audioCheckbox');
+    const labelText = document.getElementById('audioLabelText');
+    
+    checkbox.checked = audioEnabled;
+    
+    if (audioEnabled) {
+      if(!audioCtx) {
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        audioCtx = new AudioContext();
+      }
+      if (audioCtx.state === 'suspended') {
+        audioCtx.resume().catch(err => console.log(err));
+      }
+      labelText.innerText = "BGM ON";
+      labelText.style.color = "var(--accent-cyan)";
+      startBGM();
+      soundClick();
+    } else {
+      labelText.innerText = "BGM OFF";
+      labelText.style.color = "var(--text)";
+      stopBGM();
     }
-    if (audioCtx.state === 'suspended') audioCtx.resume();
-    labelText.innerText = "BGM ON";
-    labelText.style.color = "var(--accent-cyan)";
-    startBGM();
-    soundClick();
-  } else {
-    labelText.innerText = "BGM OFF";
-    labelText.style.color = "var(--text)";
-    stopBGM();
-  }
+  } catch(err) {}
 }
 
 function startBGM() {
-  if (!audioEnabled || isBgmRunning) return;
-  isBgmRunning = true;
-  if(!audioCtx) return;
+  try {
+    if (!audioEnabled || isBgmRunning || !audioCtx) return;
+    isBgmRunning = true;
 
-  const tempo = 110; 
-  const beatLen = 60 / tempo; 
+    const tempo = 110; 
+    const beatLen = 60 / tempo; 
 
-  function playBeat() {
-    if(!isBgmRunning) return;
-    
-    playNoise(0.15, 0.04); 
-    if (jazzBeat % 2 === 1) { 
-        setTimeout(() => playNoise(0.1, 0.02), beatLen * 1000 * 0.66); 
+    function playBeat() {
+      if(!isBgmRunning) return;
+      
+      playNoise(0.15, 0.04); 
+      if (jazzBeat % 2 === 1) { 
+          setTimeout(() => playNoise(0.1, 0.02), beatLen * 1000 * 0.66); 
+      }
+
+      const bassNotes = [
+        73.42, 87.31, 110.00, 130.81, 
+        98.00, 123.47, 146.83, 87.31, 
+        65.41, 82.41, 98.00, 110.00,  
+        110.00, 98.00, 82.41, 73.42   
+      ];
+      playTone(bassNotes[jazzBeat % 16], 'triangle', 0.6, 0.2);
+
+      const chordProg = [
+        [146.83, 174.61, 220.00, 261.63], 
+        [98.00,  123.47, 174.61, 220.00], 
+        [130.81, 164.81, 196.00, 246.94], 
+        [110.00, 130.81, 164.81, 196.00]  
+      ];
+      
+      if (jazzBeat % 2 === 0) { 
+         let chord = chordProg[Math.floor((jazzBeat/4) % 4)];
+         chord.forEach((freq, index) => {
+            setTimeout(() => playTone(freq, 'sine', 1.5, 0.06), index * 40); 
+         });
+      }
+
+      jazzBeat++;
+      jazzInterval = setTimeout(playBeat, beatLen * 1000);
     }
-
-    const bassNotes = [
-      73.42, 87.31, 110.00, 130.81, 
-      98.00, 123.47, 146.83, 87.31, 
-      65.41, 82.41, 98.00, 110.00,  
-      110.00, 98.00, 82.41, 73.42   
-    ];
-    playTone(bassNotes[jazzBeat % 16], 'triangle', 0.6, 0.2);
-
-    const chordProg = [
-      [146.83, 174.61, 220.00, 261.63], 
-      [98.00,  123.47, 174.61, 220.00], 
-      [130.81, 164.81, 196.00, 246.94], 
-      [110.00, 130.81, 164.81, 196.00]  
-    ];
     
-    if (jazzBeat % 2 === 0) { 
-       let chord = chordProg[Math.floor((jazzBeat/4) % 4)];
-       chord.forEach((freq, index) => {
-          setTimeout(() => playTone(freq, 'sine', 1.5, 0.06), index * 40); 
-       });
-    }
-
-    jazzBeat++;
-    jazzInterval = setTimeout(playBeat, beatLen * 1000);
-  }
-  
-  playBeat();
+    playBeat();
+  } catch(e) {}
 }
 
 function stopBGM() {
@@ -1070,44 +1096,48 @@ function stopBGM() {
 }
 
 function playTone(freq, type, duration, vol = 0.05) {
-  if (!audioEnabled || !audioCtx || audioCtx.state !== 'running') return;
-  const osc = audioCtx.createOscillator();
-  const gain = audioCtx.createGain();
-  
-  osc.type = type;
-  osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
-  
-  gain.gain.setValueAtTime(0, audioCtx.currentTime);
-  const attackTime = Math.min(0.05, duration * 0.1); 
-  gain.gain.linearRampToValueAtTime(vol, audioCtx.currentTime + attackTime);
-  gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
-  
-  osc.connect(gain); gain.connect(audioCtx.destination);
-  osc.start(); osc.stop(audioCtx.currentTime + duration);
+  try {
+    if (!audioEnabled || !audioCtx || audioCtx.state !== 'running') return;
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    
+    osc.type = type;
+    osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+    
+    gain.gain.setValueAtTime(0, audioCtx.currentTime);
+    const attackTime = Math.min(0.05, duration * 0.1); 
+    gain.gain.linearRampToValueAtTime(vol, audioCtx.currentTime + attackTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
+    
+    osc.connect(gain); gain.connect(audioCtx.destination);
+    osc.start(); osc.stop(audioCtx.currentTime + duration);
+  } catch(e) {}
 }
 
 function playNoise(duration, vol) {
-  if (!audioEnabled || !audioCtx || audioCtx.state !== 'running') return;
-  const bufferSize = audioCtx.sampleRate * duration; 
-  const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
-  const data = buffer.getChannelData(0);
-  for (let i = 0; i < bufferSize; i++) data[i] = Math.random() * 2 - 1;
+  try {
+    if (!audioEnabled || !audioCtx || audioCtx.state !== 'running') return;
+    const bufferSize = audioCtx.sampleRate * duration; 
+    const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+    const data = buffer.getChannelData(0);
+    for (let i = 0; i < bufferSize; i++) data[i] = Math.random() * 2 - 1;
 
-  const noise = audioCtx.createBufferSource();
-  noise.buffer = buffer;
-  
-  const filter = audioCtx.createBiquadFilter();
-  filter.type = 'highpass';
-  filter.frequency.value = 7000; 
-  
-  const gain = audioCtx.createGain();
-  gain.gain.setValueAtTime(vol, audioCtx.currentTime);
-  gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
+    const noise = audioCtx.createBufferSource();
+    noise.buffer = buffer;
+    
+    const filter = audioCtx.createBiquadFilter();
+    filter.type = 'highpass';
+    filter.frequency.value = 7000; 
+    
+    const gain = audioCtx.createGain();
+    gain.gain.setValueAtTime(vol, audioCtx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
 
-  noise.connect(filter);
-  filter.connect(gain);
-  gain.connect(audioCtx.destination);
-  noise.start();
+    noise.connect(filter);
+    filter.connect(gain);
+    gain.connect(audioCtx.destination);
+    noise.start();
+  } catch(e) {}
 }
 
 function soundClick() { playTone(800, 'sine', 0.1, 0.05); }
@@ -1147,22 +1177,32 @@ const successScreen = document.getElementById('success-screen');
 
 function leaveHero(e) {
   if (hasEnteredHero) return;
-  if(e && e.target && (e.target.id === 'audioToggleContainer' || e.target.closest('#audioToggleContainer'))) return; 
+  
+  // Prevent leaving if they are clicking the audio button
+  if(e && e.target) {
+    try {
+      if (e.target.id === 'audioToggleContainer' || (e.target.closest && e.target.closest('#audioToggleContainer')) || e.target.id === 'audioCheckbox') {
+        return;
+      }
+    } catch(err) {}
+  }
 
   hasEnteredHero = true;
-  soundClick();
+  try { soundClick(); } catch(err){}
   
   heroScreen.style.transform = 'translateY(-100vh) scale(0.9)';
   heroScreen.style.opacity = '0';
   
   tttScreen.style.display = 'flex';
+  
+  // Force a browser reflow so the flex display takes effect before adding visibility
+  void tttScreen.offsetWidth;
+  tttScreen.classList.add('visible');
+  
   setTimeout(() => {
     heroScreen.style.display = 'none';
-    tttScreen.classList.add('visible');
   }, 600);
 }
-heroScreen.addEventListener('click', leaveHero);
-window.addEventListener('wheel', (e) => { if (!hasEnteredHero && e.deltaY > 0) leaveHero(e); });
 
 // --- Tic-Tac-Toe Logic ---
 let board = ["", "", "", "", "", "", "", "", ""];
@@ -1344,6 +1384,7 @@ document.getElementById("refInput").addEventListener("keyup", function(e) { if(e
 document.getElementById("lbInput").addEventListener("keyup", function(e) { if(e.key === "Enter") saveInitialsAndEnter(); });
 
 function unlockCatalog(playerName) {
+  stopBGM(); 
   gate.style.opacity = "0";
   gate.style.transform = "scale(0.9)";
   gate.style.pointerEvents = "none";
