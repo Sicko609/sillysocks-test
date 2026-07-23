@@ -115,22 +115,39 @@ body {
 }
 @keyframes floatBounce { 0%, 100% { transform: translateY(0) scale(1); } 50% { transform: translateY(-10px) scale(1.02); } }
 
-/* BIG ACCESSIBLE AUDIO BUTTON (Hero Screen) */
-.audio-toggle-btn {
+/* SLEEK GLASS AUDIO TOGGLE SWITCH */
+.audio-wrapper {
   position: absolute; top: 30px; right: 30px; z-index: 10000;
-  background: var(--glass-bg); border: 2px solid var(--glass-border);
-  color: var(--text); font-family: var(--font-main); font-size: 14px; font-weight: 900;
-  padding: 16px 32px; cursor: pointer; border-radius: 50px;
+  display: flex; align-items: center; gap: 12px;
+  background: var(--glass-bg); padding: 10px 16px;
+  border-radius: 50px; border: 1px solid var(--glass-border);
   backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur);
+  box-shadow: var(--glass-shadow); cursor: pointer;
   transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-  text-transform: uppercase; letter-spacing: 1px; box-shadow: var(--glass-shadow);
 }
-.audio-toggle-btn:hover { 
-  transform: scale(1.1) translateY(-2px) rotate(3deg); 
-  background: rgba(255,255,255,0.2); border-color: var(--accent-cyan);
-  box-shadow: 0 10px 30px rgba(0, 240, 255, 0.3); color: var(--accent-cyan);
+.audio-wrapper:hover {
+  transform: scale(1.05) translateY(-2px);
+  box-shadow: 0 10px 25px rgba(0, 240, 255, 0.2);
+  border-color: rgba(255,255,255,0.4);
 }
-.audio-toggle-btn.active { color: var(--accent-yellow); border-color: var(--accent-yellow); }
+.audio-label {
+  font-family: var(--font-code); font-size: 11px; font-weight: 700; color: var(--text);
+  text-transform: uppercase; letter-spacing: 1px; transition: color 0.3s;
+}
+.switch { position: relative; display: inline-block; width: 42px; height: 24px; pointer-events: none;}
+.switch input { opacity: 0; width: 0; height: 0; }
+.slider {
+  position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0;
+  background-color: rgba(0,0,0,0.4); transition: .4s cubic-bezier(0.34, 1.56, 0.64, 1); 
+  border-radius: 24px; border: 1px solid var(--input-border);
+}
+.slider:before {
+  position: absolute; content: ""; height: 16px; width: 16px; left: 3px; bottom: 3px;
+  background-color: var(--text-muted); transition: .4s cubic-bezier(0.34, 1.56, 0.64, 1); 
+  border-radius: 50%; box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+}
+input:checked + .slider { background-color: var(--accent-cyan); border-color: var(--accent-cyan); box-shadow: inset 0 0 10px rgba(0,0,0,0.2); }
+input:checked + .slider:before { transform: translateX(18px); background-color: #fff; box-shadow: 0 0 10px rgba(255,255,255,0.8); }
 
 /* --- CUTE GLASS BOX --- */
 .glass-box { 
@@ -141,9 +158,9 @@ body {
   border-radius: 36px; overflow: hidden;
 }
 
-/* --- BOUNCY BUTTONS --- */
+/* --- BOUNCY STANDARD BUTTONS --- */
 .retro-btn { 
-  padding: 18px 24px; color: #fff; border: none; border-radius: 20px; 
+  padding: 16px 24px; color: #fff; border: none; border-radius: 20px; 
   font-family: var(--font-main); font-size: 15px; font-weight: 900; cursor: pointer; 
   transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); text-transform: uppercase; 
   margin: 8px 0; width: 100%; display: block; letter-spacing: 1px;
@@ -151,6 +168,7 @@ body {
   background-size: 200% 200%; animation: gradientShift 4s ease infinite;
   box-shadow: 0 10px 25px rgba(255, 0, 127, 0.3), inset 0 2px 0 rgba(255,255,255,0.4);
 }
+@keyframes gradientShift { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
 .retro-btn:hover { transform: scale(1.05) translateY(-4px); box-shadow: 0 15px 35px rgba(0, 240, 255, 0.4), inset 0 2px 0 rgba(255,255,255,0.6); }
 .retro-btn:active { transform: scale(0.95) translateY(2px); box-shadow: 0 5px 15px rgba(255, 0, 127, 0.2); }
 
@@ -159,6 +177,30 @@ body {
   box-shadow: none; animation: none; 
 }
 .retro-btn.secondary:hover { background: var(--glass-highlight); color: var(--bg-color); border-color: transparent; }
+
+/* --- MASSIVE EUPHORIC 'SECURE ITEM' BUTTON --- */
+.buy-btn { 
+  width: 100%; padding: 22px 24px; border: none; border-radius: 24px; 
+  font-family: var(--font-main); font-size: 19px; font-weight: 900; cursor: pointer; 
+  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); text-transform: uppercase; 
+  display: block; letter-spacing: 2px;
+  background: linear-gradient(135deg, var(--accent-cyan), var(--accent-pink), var(--accent-yellow));
+  background-size: 200% 200%; animation: gradientShift 3s ease infinite; color: #fff;
+  box-shadow: 0 12px 35px rgba(0, 240, 255, 0.4), inset 0 3px 0 rgba(255,255,255,0.5);
+  position: relative; overflow: hidden; margin-top: 15px;
+}
+.buy-btn::after {
+  content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%;
+  background: linear-gradient(to right, transparent, rgba(255,255,255,0.4), transparent);
+  transform: skewX(-20deg); transition: 0.5s;
+}
+.buy-btn:hover::after { left: 150%; transition: 0.7s; }
+.buy-btn:hover { 
+  transform: scale(1.04) translateY(-6px); 
+  box-shadow: 0 20px 45px rgba(255, 0, 127, 0.5), inset 0 3px 0 rgba(255,255,255,0.8); 
+  color: #fff;
+}
+.buy-btn:active { transform: scale(0.96) translateY(2px); box-shadow: 0 5px 15px rgba(0, 240, 255, 0.3); }
 
 /* --- TIC-TAC-TOE --- */
 .ttt-board { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; width: 100%; max-width: 280px; margin: 25px auto; aspect-ratio: 1/1; }
@@ -225,6 +267,9 @@ body {
   background: var(--glass-highlight); color: var(--text); box-shadow: 0 4px 15px rgba(0,0,0,0.15); transform: scale(1.02);
 }
 
+.bkash-info-box { background: rgba(255, 0, 127, 0.1); border: 1px solid rgba(255, 0, 127, 0.3); padding: 16px; border-radius: 14px; margin-top: 5px; display: flex; flex-direction: column; gap: 10px; }
+.bkash-number { font-family: var(--font-code); font-size: 14px; font-weight: 700; color: var(--accent-pink); }
+
 /* --- HIGHLY REWARDING SUCCESS SCREEN --- */
 #success-screen .glass-box {
   border-color: var(--accent-green);
@@ -232,7 +277,7 @@ body {
   animation: successPulse 2s infinite alternate;
 }
 @keyframes successPulse { 0% { transform: scale(1); } 100% { transform: scale(1.02); } }
-.success-icon { font-size: 70px; margin-bottom: 10px; filter: drop-shadow(0 0 25px var(--accent-green)); animation: popIn 0.8s cubic-bezier(0.34, 1.56, 0.64, 1); }
+.success-icon { font-size: 70px; margin-bottom: 10px; filter: drop-shadow(0 0 20px var(--accent-green)); animation: popIn 0.8s cubic-bezier(0.34, 1.56, 0.64, 1); }
 @keyframes popIn { 0% { transform: scale(0) rotate(-45deg); opacity: 0; } 100% { transform: scale(1) rotate(0deg); opacity: 1; } }
 
 .stat-row { font-family: var(--font-code); font-size: 13px; margin-bottom: 15px; color: var(--text-muted); font-weight: 700; display: flex; justify-content: space-between; border-bottom: 2px dashed var(--input-border); padding-bottom: 10px;}
@@ -257,7 +302,7 @@ body {
 .theme-toggle-btn:hover { transform: scale(1.05) rotate(3deg); background: var(--text); color: var(--bg-color); }
 
 .ticker-wrap { width: 100%; overflow: hidden; background: rgba(0,0,0,0.4); color: var(--accent-yellow); padding: 14px 0; font-family: var(--font-code); font-size: 13px; font-weight: 700; border-bottom: 2px solid var(--glass-border); white-space: nowrap; backdrop-filter: blur(5px);}
-.ticker { display: inline-block; white-space: nowrap; animation: ticker 20s linear infinite; }
+.ticker { display: inline-block; white-space: nowrap; animation: ticker 25s linear infinite; }
 .ticker span { margin-right: 50px; }
 @keyframes ticker { 0% { transform: translate3d(0, 0, 0); } 100% { transform: translate3d(-50%, 0, 0); } }
 
@@ -311,76 +356,67 @@ body {
 .ig-float-btn:hover { transform: scale(1.15) rotate(15deg); box-shadow: 0 15px 40px rgba(220, 39, 67, 0.6); }
 .ig-float-btn svg { width: 34px; height: 34px; fill: #fff; }
 
-@media(max-width: 480px) {
-  .input-row { flex-direction: column; align-items: stretch; }
-  .retro-btn { padding: 20px; font-size: 14px; }
-  .cat-header { padding: 1.2rem; flex-direction: column;}
-  .welcome-pill { width: 100%; justify-content: space-between; padding: 8px 8px 8px 18px; margin-top: 15px;}
-  .glass-box { padding: 2.5rem 1.5rem; width: 95%; border-radius: 32px;}
-  .cam-grid { gap: 30px; }
-  .hero-logo { font-size: clamp(50px, 15vw, 80px); }
-  .audio-toggle-btn { top: 20px; right: 20px; padding: 12px 20px; font-size: 11px; }
-}
 
 /* ===========================================
-   CUTE MASCOT BOT (INTERACTIVE & REWARDING)
+   THE PIXELATED RETRO CAT (SCALED FOR MOBILE)
 =========================================== */
+#pixel-cat-svg {
+  width: 100px;
+  height: 100px;
+}
+
 #mascot-container {
   position: fixed;
   bottom: 30px;
   left: 30px;
   z-index: 10001; 
-  pointer-events: none; /* Prevents blocking clicks */
+  pointer-events: none;
   display: flex;
   flex-direction: column;
   align-items: center;
   transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transform-origin: bottom left;
 }
 
-/* Subtle idle bobbing */
 .mascot-idle { animation: idleBob 3s ease-in-out infinite alternate; }
 @keyframes idleBob { 0% { transform: translateY(0); } 100% { transform: translateY(10px); } }
 
-/* Speech Bubble */
 #mascot-speech {
   background: var(--glass-bg);
   border: 2px solid var(--glass-border);
   padding: 10px 16px;
   border-radius: 20px;
-  font-family: var(--font-main);
-  font-size: 13px;
+  font-family: var(--font-code);
+  font-size: 12px;
   font-weight: 800;
   color: var(--text);
   white-space: nowrap;
   box-shadow: var(--glass-shadow);
   backdrop-filter: var(--glass-blur);
   -webkit-backdrop-filter: var(--glass-blur);
-  margin-bottom: 10px;
+  margin-bottom: 5px;
   opacity: 0.9;
   position: relative;
+  transition: all 0.3s;
 }
 #mascot-speech::after {
   content: ''; position: absolute; bottom: -8px; left: 50%; transform: translateX(-50%);
   border-width: 8px 8px 0; border-style: solid; border-color: var(--glass-border) transparent transparent transparent;
 }
 
-/* Character Body */
 #mascot-body {
-  font-size: 60px;
-  filter: drop-shadow(0 10px 15px rgba(0,0,0,0.3));
+  filter: drop-shadow(0 10px 15px rgba(0,0,0,0.5));
   transition: all 0.3s;
 }
 
-/* Euphoric Dance Animation */
 .mascot-euphoric {
   animation: euphoricDance 0.5s infinite alternate cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 @keyframes euphoricDance {
   0% { transform: translateY(0) scale(1.1) rotate(-10deg); }
-  100% { transform: translateY(-30px) scale(1.2) rotate(10deg); filter: drop-shadow(0 20px 20px rgba(255, 0, 127, 0.5));}
+  100% { transform: translateY(-30px) scale(1.2) rotate(10deg); filter: drop-shadow(0 20px 20px rgba(255, 0, 127, 0.6));}
 }
 
-/* Confetti System */
 .confetti {
   position: fixed; width: 10px; height: 10px; z-index: 10000; pointer-events: none;
   animation: fall 3s linear forwards;
@@ -390,6 +426,29 @@ body {
   100% { transform: translateY(110vh) rotate(720deg); opacity: 0;}
 }
 
+/* --- MOBILE SPECIFIC FIXES (Shrink Cat & IG Button) --- */
+@media(max-width: 768px) {
+  .input-row { flex-direction: column; align-items: stretch; }
+  .retro-btn { padding: 20px; font-size: 14px; }
+  .cat-header { padding: 1.2rem; flex-direction: column;}
+  .welcome-pill { width: 100%; justify-content: space-between; padding: 8px 8px 8px 18px; margin-top: 15px;}
+  .glass-box { padding: 2.5rem 1.5rem; width: 95%; border-radius: 32px;}
+  .cam-grid { gap: 30px; }
+  .hero-logo { font-size: clamp(50px, 15vw, 80px); }
+  .audio-wrapper { top: 20px; right: 20px; padding: 8px 12px; }
+  .audio-label { font-size: 10px; }
+  .buy-btn { font-size: 16px; padding: 20px; }
+  
+  /* Make IG button compact so it doesn't block the screen */
+  .ig-float-btn { width: 45px; height: 45px; bottom: 15px; right: 15px; }
+  .ig-float-btn svg { width: 22px; height: 22px; }
+  
+  /* Make Pixel Cat compact */
+  #mascot-container { bottom: 15px; left: 15px; }
+  #pixel-cat-svg { width: 65px; height: 65px; }
+  #mascot-speech { font-size: 10px; padding: 6px 12px; border-radius: 12px; margin-bottom: 2px;}
+  #mascot-speech::after { border-width: 6px 6px 0; bottom: -6px; }
+}
 </style>
 </head>
 <body>
@@ -399,9 +458,15 @@ body {
 
 <!-- SCREEN 1: HERO SECTION -->
 <div id="hero-screen" class="screen-layer visible">
-  <button id="audioToggleBtn" class="audio-toggle-btn" onclick="toggleAudio(event)">
-    AUDIO: OFF
-  </button>
+  
+  <!-- SLEEK GLASS AUDIO TOGGLE SWITCH -->
+  <div class="audio-wrapper" id="audioToggleContainer" onclick="toggleAudio(event)">
+    <span class="audio-label" id="audioLabelText">BGM OFF</span>
+    <label class="switch">
+      <input type="checkbox" id="audioCheckbox" readonly>
+      <span class="slider"></span>
+    </label>
+  </div>
   
   <h1 class="hero-logo">SILLY SOCKS</h1>
   <p class="hero-prompt">TAP TO ENTER ARCADE</p>
@@ -410,7 +475,7 @@ body {
 <!-- SCREEN 2: TIC-TAC-TOE BATTLE -->
 <div id="tictactoe-screen" class="screen-layer">
   <div class="glass-box">
-    <div class="gate-title">BEAT THE BOT 🤖</div>
+    <div class="gate-title">BEAT THE AI</div>
     <p class="gate-sub" id="ttt-status">PLAYER 1 IS 'X'. YOUR TURN!</p>
     
     <div class="ttt-board" id="ttt-board-container">
@@ -531,7 +596,7 @@ body {
         <span>I accept the Terms & Conditions, including the 3-day warranty limits and COD liability.</span>
       </label>
 
-      <button type="submit" id="submitOrderBtn" class="retro-btn" style="margin-top: 25px; padding: 22px; font-size: 16px;">PLACE ORDER ✨</button>
+      <button type="submit" id="submitOrderBtn" class="buy-btn">PLACE ORDER ✨</button>
       <button type="button" class="retro-btn secondary" onclick="cancelCheckout()">BACK TO SHOP 🔙</button>
     </form>
   </div>
@@ -590,10 +655,82 @@ body {
   </div>
 </div>
 
-<!-- THE CUTE MASCOT -->
+<!-- THE FULL BODY PIXEL CAT MASCOT -->
 <div id="mascot-container" class="mascot-idle">
   <div id="mascot-speech">Waiting for order... 🥺</div>
-  <div id="mascot-body">😿</div>
+  <div id="mascot-body">
+    <svg id="pixel-cat-svg" viewBox="0 0 32 32" shape-rendering="crispEdges">
+      <!-- Shadow -->
+      <rect x="6" y="30" width="24" height="2" fill="rgba(0,0,0,0.4)"/>
+      
+      <!-- Tail Idle -->
+      <g id="cat-tail-idle">
+        <rect x="22" y="26" width="8" height="2" fill="#fff"/>
+        <rect x="28" y="22" width="2" height="4" fill="#fff"/>
+      </g>
+      <!-- Tail Happy -->
+      <g id="cat-tail-happy" style="display:none;">
+        <rect x="22" y="14" width="2" height="12" fill="#fff"/>
+        <rect x="22" y="12" width="2" height="2" fill="var(--accent-pink)"/>
+      </g>
+
+      <!-- Back legs / Body -->
+      <rect x="10" y="20" width="12" height="10" fill="#fff"/>
+      <!-- Belly -->
+      <rect x="12" y="22" width="8" height="8" fill="rgba(0,0,0,0.1)"/>
+
+      <!-- Front Paws -->
+      <rect x="10" y="28" width="4" height="2" fill="#fff"/>
+      <rect x="18" y="28" width="4" height="2" fill="#fff"/>
+
+      <!-- Head Base -->
+      <rect x="6" y="8" width="20" height="12" fill="#fff"/>
+      
+      <!-- Ears -->
+      <rect x="6" y="2" width="4" height="6" fill="#fff"/>
+      <rect x="22" y="2" width="4" height="6" fill="#fff"/>
+      <!-- Inner Ears -->
+      <rect x="7" y="4" width="2" height="4" fill="var(--accent-pink)"/>
+      <rect x="23" y="4" width="2" height="4" fill="var(--accent-pink)"/>
+
+      <!-- Eyeballs (White bounds for pupil tracking) -->
+      <rect x="9" y="11" width="6" height="6" fill="#000"/>
+      <rect x="17" y="11" width="6" height="6" fill="#000"/>
+
+      <!-- Moving Pupils (Start at center) -->
+      <rect id="pupil-l" x="11" y="13" width="2" height="2" fill="var(--accent-cyan)"/>
+      <rect id="pupil-r" x="19" y="13" width="2" height="2" fill="var(--accent-cyan)"/>
+
+      <!-- Tears (Idle) -->
+      <g id="cat-tears">
+        <rect x="11" y="18" width="2" height="2" fill="var(--accent-cyan)"/>
+        <rect x="19" y="18" width="2" height="2" fill="var(--accent-cyan)"/>
+      </g>
+
+      <!-- Blush (Happy) -->
+      <g id="cat-blush" style="display:none;">
+        <rect x="6" y="15" width="3" height="2" fill="var(--accent-pink)"/>
+        <rect x="23" y="15" width="3" height="2" fill="var(--accent-pink)"/>
+      </g>
+
+      <!-- Nose/Mouth -->
+      <rect x="15" y="14" width="2" height="1" fill="var(--accent-pink)"/>
+      
+      <!-- Sad Mouth -->
+      <g id="cat-mouth-idle">
+        <rect x="15" y="16" width="2" height="1" fill="#000"/>
+        <rect x="14" y="17" width="1" height="1" fill="#000"/>
+        <rect x="17" y="17" width="1" height="1" fill="#000"/>
+      </g>
+      
+      <!-- Happy Mouth -->
+      <g id="cat-mouth-happy" style="display:none;">
+        <rect x="14" y="16" width="4" height="1" fill="#000"/>
+        <rect x="15" y="17" width="2" height="2" fill="#000"/>
+        <rect x="15" y="17" width="2" height="1" fill="var(--accent-pink)"/>
+      </g>
+    </svg>
+  </div>
 </div>
 
 <button class="ig-float-btn" onclick="window.open('https://www.instagram.com/your.sillysocks/', '_blank')">
@@ -617,6 +754,9 @@ function resizeCanvas() {
   height = canvas.height = window.innerHeight;
   isMobile = width < 768;
   mouse.radius = isMobile ? 250 : 450;
+  
+  // Instantly apply correct positions on resize
+  resetMascot();
 }
 window.addEventListener('resize', resizeCanvas);
 resizeCanvas();
@@ -624,7 +764,7 @@ resizeCanvas();
 function updateInteraction(x, y) {
   mouse.x = x;
   mouse.y = y;
-  updateMascotLook(x, y); // Mascot tracking
+  updateMascotLook(x, y); 
 }
 window.addEventListener('mousemove', (e) => updateInteraction(e.clientX, e.clientY));
 window.addEventListener('touchstart', (e) => updateInteraction(e.touches[0].clientX, e.touches[0].clientY), {passive: true});
@@ -637,8 +777,8 @@ for(let i=0; i<40; i++) {
   particles.push({
     x: Math.random() * window.innerWidth,
     y: Math.random() * window.innerHeight,
-    size: Math.random() * 4 + 1,
-    speedY: Math.random() * 0.8 + 0.2,
+    size: Math.random() * 3 + 1,
+    speedY: Math.random() * 0.5 + 0.2,
     alpha: Math.random() * 0.5 + 0.2
   });
 }
@@ -658,7 +798,6 @@ function drawCanvas() {
 
   ctx.lineWidth = 1.5;
 
-  // Render fluid bending lines
   for (let r = 0; r < rows; r++) {
     ctx.beginPath();
     ctx.strokeStyle = (r % 2 === 0) ? lineCol1 : lineCol2;
@@ -707,7 +846,6 @@ function drawCanvas() {
     ctx.stroke();
   }
 
-  // Draw floating glowing orbs
   particles.forEach(p => {
     p.y -= p.speedY;
     p.x += Math.sin(time * 5 + p.y * 0.01) * 0.8;
@@ -724,28 +862,52 @@ function drawCanvas() {
 drawCanvas();
 
 // ==========================================
-// CUTE MASCOT LOGIC (Mouse Tracking & Euphoria)
+// CUTE PIXEL MASCOT LOGIC (Real Eye Tracking)
 // ==========================================
 const mascotContainer = document.getElementById('mascot-container');
 const mascotBody = document.getElementById('mascot-body');
 const mascotSpeech = document.getElementById('mascot-speech');
+const pupilL = document.getElementById('pupil-l');
+const pupilR = document.getElementById('pupil-r');
+
 let mascotDanceInterval;
 let isMascotHappy = false;
 
 function updateMascotLook(cursorX, cursorY) {
-  if (isMascotHappy) return; // Don't track if it's dancing wildly
+  if (isMascotHappy) return; 
+  
   const rect = mascotContainer.getBoundingClientRect();
   const mascotX = rect.left + rect.width / 2;
   const mascotY = rect.top + rect.height / 2;
   
-  const tiltX = ((cursorX - mascotX) / window.innerWidth) * 40; // Max tilt deg
-  const tiltY = ((cursorY - mascotY) / window.innerHeight) * 40;
+  const dx = cursorX - mascotX;
+  const dy = cursorY - mascotY;
   
+  const maxDist = Math.max(window.innerWidth, window.innerHeight) / 2;
+  let normX = (dx / maxDist) * 3; 
+  let normY = (dy / maxDist) * 3;
+  
+  normX = Math.max(-2, Math.min(2, normX));
+  normY = Math.max(-2, Math.min(2, normY));
+  
+  pupilL.setAttribute('x', 11 + normX);
+  pupilL.setAttribute('y', 13 + normY);
+  pupilR.setAttribute('x', 19 + normX);
+  pupilR.setAttribute('y', 13 + normY);
+  
+  const tiltX = (dx / window.innerWidth) * 40; 
+  const tiltY = (dy / window.innerHeight) * 40;
   mascotBody.style.transform = `perspective(300px) rotateX(${-tiltY}deg) rotateY(${tiltX}deg)`;
 }
 
 function resetMascotLook() {
-  if (!isMascotHappy) mascotBody.style.transform = 'perspective(300px) rotateX(0deg) rotateY(0deg)';
+  if (!isMascotHappy) {
+    mascotBody.style.transform = 'perspective(300px) rotateX(0deg) rotateY(0deg)';
+    pupilL.setAttribute('x', 11);
+    pupilL.setAttribute('y', 13);
+    pupilR.setAttribute('x', 19);
+    pupilR.setAttribute('y', 13);
+  }
 }
 
 function makeMascotEuphoric() {
@@ -753,14 +915,23 @@ function makeMascotEuphoric() {
   mascotContainer.classList.remove('mascot-idle');
   mascotContainer.classList.add('mascot-euphoric');
   
-  mascotBody.innerText = "😻";
-  mascotBody.style.transform = 'none'; // reset tracking tilt
+  mascotBody.style.transform = 'none'; 
+  
+  document.getElementById('cat-tail-idle').style.display = 'none';
+  document.getElementById('cat-tail-happy').style.display = 'block';
+  document.getElementById('cat-tears').style.display = 'none';
+  document.getElementById('cat-blush').style.display = 'block';
+  document.getElementById('cat-mouth-idle').style.display = 'none';
+  document.getElementById('cat-mouth-happy').style.display = 'block';
+  
+  pupilL.setAttribute('x', 11);
+  pupilL.setAttribute('y', 13);
+  pupilR.setAttribute('x', 19);
+  pupilR.setAttribute('y', 13);
   
   mascotSpeech.innerText = "OMG YAY!! THANK YOU!! 💖✨";
   mascotSpeech.style.color = "var(--accent-yellow)";
-  mascotSpeech.style.borderColor = "var(--accent-yellow)";
   
-  // Confetti explosion
   for(let i=0; i<80; i++) {
     let conf = document.createElement('div');
     conf.className = 'confetti';
@@ -769,10 +940,9 @@ function makeMascotEuphoric() {
     conf.style.animationDuration = (Math.random() * 2 + 2) + 's';
     conf.style.animationDelay = (Math.random() * 1) + 's';
     document.body.appendChild(conf);
-    setTimeout(() => conf.remove(), 4000); // cleanup
+    setTimeout(() => conf.remove(), 4000); 
   }
   
-  // Happy giggles audio
   if(audioEnabled) {
     playTone(880, 'square', 0.1);
     setTimeout(() => playTone(1046, 'square', 0.1), 150);
@@ -780,7 +950,6 @@ function makeMascotEuphoric() {
     setTimeout(() => playTone(1567, 'square', 0.2), 450);
   }
   
-  // Dance around the screen bounds
   mascotDanceInterval = setInterval(() => {
     const maxX = window.innerWidth - 120;
     const maxY = window.innerHeight - 150;
@@ -793,31 +962,45 @@ function resetMascot() {
   isMascotHappy = false;
   clearInterval(mascotDanceInterval);
   
-  mascotContainer.style.left = '30px';
-  mascotContainer.style.bottom = '30px';
+  // Respect mobile responsive bounds 
+  mascotContainer.style.left = isMobile ? '15px' : '30px';
+  mascotContainer.style.bottom = isMobile ? '15px' : '30px';
   
   mascotContainer.classList.remove('mascot-euphoric');
   mascotContainer.classList.add('mascot-idle');
   
-  mascotBody.innerText = "😿";
+  document.getElementById('cat-tail-idle').style.display = 'block';
+  document.getElementById('cat-tail-happy').style.display = 'none';
+  document.getElementById('cat-tears').style.display = 'block';
+  document.getElementById('cat-blush').style.display = 'none';
+  document.getElementById('cat-mouth-idle').style.display = 'block';
+  document.getElementById('cat-mouth-happy').style.display = 'none';
   
   mascotSpeech.innerText = "Waiting for order... 🥺";
   mascotSpeech.style.color = "var(--text)";
-  mascotSpeech.style.borderColor = "var(--glass-border)";
 }
 
+// Set initial mascot position
+resetMascot();
+
 // ==========================================
-// AUDIO ENGINE
+// AMBIENT AUDIO ENGINE (Soft Lounge Jazz Background)
 // ==========================================
 let audioCtx = null;
 let audioEnabled = false;
 let isBgmRunning = false;
+let ambientOscillators = [];
+let jazzInterval;
+let jazzBeat = 0;
 
 function toggleAudio(e) {
-  if(e) e.stopPropagation(); // Prevents click passing through to Hero Screen
+  if(e) e.stopPropagation(); 
   
   audioEnabled = !audioEnabled;
-  const btn = document.getElementById('audioToggleBtn');
+  const checkbox = document.getElementById('audioCheckbox');
+  const labelText = document.getElementById('audioLabelText');
+  
+  checkbox.checked = audioEnabled;
   
   if (audioEnabled) {
     if(!audioCtx) {
@@ -825,13 +1008,13 @@ function toggleAudio(e) {
       audioCtx = new AudioContext();
     }
     if (audioCtx.state === 'suspended') audioCtx.resume();
-    btn.innerText = "AUDIO: ON 🔊";
-    btn.classList.add('active');
+    labelText.innerText = "BGM ON";
+    labelText.style.color = "var(--accent-cyan)";
     startBGM();
     soundClick();
   } else {
-    btn.innerText = "AUDIO: OFF 🔈";
-    btn.classList.remove('active');
+    labelText.innerText = "BGM OFF";
+    labelText.style.color = "var(--text)";
     stopBGM();
   }
 }
@@ -839,30 +1022,92 @@ function toggleAudio(e) {
 function startBGM() {
   if (!audioEnabled || isBgmRunning) return;
   isBgmRunning = true;
-  let t = 0;
-  let notes = [130.81, 155.56, 130.81, 196.00]; 
-  
-  function loop() {
-    if(!isBgmRunning || !audioEnabled) return;
-    playTone(notes[t % 4], 'sine', 0.4, 0.03);
-    t++;
-    setTimeout(loop, 400);
+  if(!audioCtx) return;
+
+  const tempo = 110; 
+  const beatLen = 60 / tempo; 
+
+  function playBeat() {
+    if(!isBgmRunning) return;
+    
+    playNoise(0.15, 0.04); 
+    if (jazzBeat % 2 === 1) { 
+        setTimeout(() => playNoise(0.1, 0.02), beatLen * 1000 * 0.66); 
+    }
+
+    const bassNotes = [
+      73.42, 87.31, 110.00, 130.81, 
+      98.00, 123.47, 146.83, 87.31, 
+      65.41, 82.41, 98.00, 110.00,  
+      110.00, 98.00, 82.41, 73.42   
+    ];
+    playTone(bassNotes[jazzBeat % 16], 'triangle', 0.6, 0.2);
+
+    const chordProg = [
+      [146.83, 174.61, 220.00, 261.63], 
+      [98.00,  123.47, 174.61, 220.00], 
+      [130.81, 164.81, 196.00, 246.94], 
+      [110.00, 130.81, 164.81, 196.00]  
+    ];
+    
+    if (jazzBeat % 2 === 0) { 
+       let chord = chordProg[Math.floor((jazzBeat/4) % 4)];
+       chord.forEach((freq, index) => {
+          setTimeout(() => playTone(freq, 'sine', 1.5, 0.06), index * 40); 
+       });
+    }
+
+    jazzBeat++;
+    jazzInterval = setTimeout(playBeat, beatLen * 1000);
   }
-  loop();
+  
+  playBeat();
 }
 
-function stopBGM() { isBgmRunning = false; }
+function stopBGM() {
+  isBgmRunning = false;
+  clearTimeout(jazzInterval);
+}
 
 function playTone(freq, type, duration, vol = 0.05) {
   if (!audioEnabled || !audioCtx || audioCtx.state !== 'running') return;
   const osc = audioCtx.createOscillator();
   const gain = audioCtx.createGain();
+  
   osc.type = type;
   osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
-  gain.gain.setValueAtTime(vol, audioCtx.currentTime);
+  
+  gain.gain.setValueAtTime(0, audioCtx.currentTime);
+  const attackTime = Math.min(0.05, duration * 0.1); 
+  gain.gain.linearRampToValueAtTime(vol, audioCtx.currentTime + attackTime);
   gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
+  
   osc.connect(gain); gain.connect(audioCtx.destination);
   osc.start(); osc.stop(audioCtx.currentTime + duration);
+}
+
+function playNoise(duration, vol) {
+  if (!audioEnabled || !audioCtx || audioCtx.state !== 'running') return;
+  const bufferSize = audioCtx.sampleRate * duration; 
+  const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+  const data = buffer.getChannelData(0);
+  for (let i = 0; i < bufferSize; i++) data[i] = Math.random() * 2 - 1;
+
+  const noise = audioCtx.createBufferSource();
+  noise.buffer = buffer;
+  
+  const filter = audioCtx.createBiquadFilter();
+  filter.type = 'highpass';
+  filter.frequency.value = 7000; 
+  
+  const gain = audioCtx.createGain();
+  gain.gain.setValueAtTime(vol, audioCtx.currentTime);
+  gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
+
+  noise.connect(filter);
+  filter.connect(gain);
+  gain.connect(audioCtx.destination);
+  noise.start();
 }
 
 function soundClick() { playTone(800, 'sine', 0.1, 0.05); }
@@ -902,7 +1147,7 @@ const successScreen = document.getElementById('success-screen');
 
 function leaveHero(e) {
   if (hasEnteredHero) return;
-  if(e && e.target && (e.target.id === 'audioToggleBtn' || e.target.closest('#audioToggleBtn'))) return; 
+  if(e && e.target && (e.target.id === 'audioToggleContainer' || e.target.closest('#audioToggleContainer'))) return; 
 
   hasEnteredHero = true;
   soundClick();
@@ -1099,7 +1344,6 @@ document.getElementById("refInput").addEventListener("keyup", function(e) { if(e
 document.getElementById("lbInput").addEventListener("keyup", function(e) { if(e.key === "Enter") saveInitialsAndEnter(); });
 
 function unlockCatalog(playerName) {
-  stopBGM(); 
   gate.style.opacity = "0";
   gate.style.transform = "scale(0.9)";
   gate.style.pointerEvents = "none";
@@ -1190,7 +1434,7 @@ function animateScore() {
 function closeSuccessScreen() {
   soundClick();
   successScreen.classList.remove('visible');
-  resetMascot(); // Put the cat back in its idle corner
+  resetMascot(); 
   
   setTimeout(() => {
     successScreen.style.display = "none";
@@ -1229,20 +1473,22 @@ document.getElementById("orderForm").addEventListener("submit", function(e) {
            setTimeout(() => { 
              successScreen.classList.add('visible'); 
              animateScore(); 
-             makeMascotEuphoric(); // Make the mascot bounce with joy & spawn confetti!
+             makeMascotEuphoric(); 
            }, 50);
        }, 600);
-       btn.innerText = "PLACE ORDER ✨";
-       btn.style.pointerEvents = "auto";
-       btn.style.opacity = "1";
-       document.getElementById("orderForm").reset();
-       toggleBkash(false);
+       
+       // Reset
+       setTimeout(() => {
+         btn.innerText = "PLACE ORDER ✨";
+         btn.style.pointerEvents = "auto";
+         btn.style.opacity = "1";
+         document.getElementById("orderForm").reset();
+         toggleBkash(false);
+       }, 2000);
     }, 1200);
   })
   .catch(error => {
      soundError();
-     // We trigger the success screen anyway on fetch error to maintain the seamless experience 
-     // since no-cors sometimes masks a true success as an error type.
      checkoutScreen.classList.remove('visible');
        setTimeout(() => {
            checkoutScreen.style.display = "none";
@@ -1254,9 +1500,12 @@ document.getElementById("orderForm").addEventListener("submit", function(e) {
            }, 50);
        }, 600);
        
-     btn.innerText = "PLACE ORDER ✨";
-     btn.style.pointerEvents = "auto";
-     btn.style.opacity = "1";
+     setTimeout(() => {
+       btn.innerText = "PLACE ORDER ✨";
+       btn.style.pointerEvents = "auto";
+       btn.style.opacity = "1";
+       document.getElementById("orderForm").reset();
+     }, 2000);
   });
 });
 
@@ -1294,7 +1543,7 @@ function renderGrid(dataArray, gridId, prefix) {
     var c = dataArray[x];
     var card = document.createElement("div");
     card.className = "cam-card";
-    
+
     var initialPriceHTML = getPriceHTML(isFlash, true);
 
     card.innerHTML =
@@ -1313,7 +1562,7 @@ function renderGrid(dataArray, gridId, prefix) {
           '<div class="variant-slider"></div>' +
         '</div>' +
         '<div class="price-row" id="priceRow' + prefix + x + '">' + initialPriceHTML + '</div>' +
-        '<button class="buy-btn" onclick="openCheckout(\'' + c.c + '\', ' + isFlash + ', document.getElementById(\'sdopt_' + prefix + x + '_with\').checked)">SECURE ITEM 💖</button>' +
+        '<button class="buy-btn" onclick="openCheckout(\'' + c.c + '\', ' + isFlash + ', document.getElementById(\'sdopt_' + prefix + x + '_with\').checked)">SECURE ITEM 🚀</button>' +
       '</div>';
     grid.appendChild(card);
   }
@@ -1328,7 +1577,7 @@ function showPage(page) {
   const oldBody = document.getElementById(page === 1 ? 'page2Body' : 'page1Body');
   const newBody = document.getElementById(page === 1 ? 'page1Body' : 'page2Body');
   oldBody.style.display = 'none'; newBody.style.display = 'block'; newBody.style.opacity = '0'; newBody.style.transform = 'translateY(20px)';
-  setTimeout(() => { newBody.style.transition = 'all 0.4s ease'; newBody.style.opacity = '1'; newBody.style.transform = 'translateY(0)'; }, 10);
+  setTimeout(() => { newBody.style.opacity = '1'; newBody.style.transform = 'translateY(0)'; }, 10);
 }
 
 function updatePrice(radio, index) {
