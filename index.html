@@ -117,7 +117,7 @@ body {
 .ttt-cell:hover { background: rgba(255,255,255,0.1); }
 .ttt-cell.x { color: var(--accent-1); text-shadow: 0 0 15px var(--accent-1); }
 .ttt-cell.o { color: var(--accent-2); text-shadow: 0 0 15px var(--accent-2); }
-#ttt-status { font-family: var(--font-retro); font-size: 10px; color: var(--accent-3); margin-top: 10px; line-height: 1.6; animation: pulseLogo 1.5s infinite alternate;}
+#ttt-status { font-family: var(--font-retro); font-size: 10px; color: var(--accent-3); margin-top: 10px; line-height: 1.6; animation: pulseLogo 1.5s infinite alternate; transition: color 0.3s;}
 .btn-group { display: flex; flex-direction: column; gap: 5px; margin-top: 15px; }
 
 /* --- SCREEN 3: GATE / HACKING --- */
@@ -175,7 +175,7 @@ body {
 .ticker span { margin-right: 30px; }
 @keyframes ticker { 0% { transform: translate3d(0, 0, 0); } 100% { transform: translate3d(-50%, 0, 0); } }
 
-.disc-bar { background: var(--accent-1); padding: 10px 1rem; text-align: center; font-size: 10px; font-family: var(--font-retro); color: #fff; line-height: 1.6; border-bottom: 4px solid #000; }
+.disc-bar { background: var(--accent-1); padding: 10px 1rem; text-align: center; font-size: 10px; font-family: var(--font-retro); color: #fff; line-height: 1.6; border-bottom: 4px solid #000; transition: all 0.5s;}
 
 .cat-body { max-width: 1200px; margin: 0 auto; padding: 3rem 1.5rem 0; }
 .section-label { font-family: var(--font-retro); font-size: 14px; color: var(--text); margin-bottom: 2rem; text-shadow: 2px 2px 0 var(--accent-1); line-height: 1.4; }
@@ -321,9 +321,9 @@ body {
     </div>
 
     <div class="btn-group">
-      <button class="retro-btn" id="resetTttBtn" style="display:none;" onclick="resetBoard()">REMATCH</button>
+      <button class="retro-btn" id="resetTttBtn" style="display:none;" onclick="resetBoard()">TRY AGAIN (IF YOU DARE)</button>
       <button class="retro-btn" id="skipTttBtn" onclick="showGate(false)">I HAVE A CODE</button>
-      <button class="retro-btn" onclick="skipToCatalog()">SKIP TO CATALOG</button>
+      <button class="retro-btn" id="skipToCatBtn" onclick="skipToCatalog()">SKIP TO CATALOG</button>
     </div>
   </div>
 </div>
@@ -383,7 +383,7 @@ body {
       </select>
 
       <label>> BRO CODE (OPTIONAL)</label>
-      <input type="text" name="BRO CODE" id="form-brocode" class="retro-input" placeholder="FOR 5% OFF & FREE DEL" />
+      <input type="text" name="BRO CODE" id="form-brocode" class="retro-input" placeholder="FOR EXTRA DISCOUNT" />
 
       <label>> QUANTITY *</label>
       <select name="Quantity" class="retro-select" required>
@@ -474,7 +474,6 @@ body {
     </div>
   </header>
 
-  <!-- Arcade Leaderboard Ticker -->
   <div class="ticker-wrap" id="leaderboardWrap">
     <div class="ticker" id="lbTickerContainer"></div>
   </div>
@@ -749,11 +748,25 @@ function leaveHero(target) {
   }
 }
 
-// --- Tic-Tac-Toe Game Logic ---
+// --- Tic-Tac-Toe Game Logic (HARD BOT) ---
 let board = ["", "", "", "", "", "", "", "", ""];
 let gameActive = true;
 const cells = document.querySelectorAll('.ttt-cell');
 const statusText = document.getElementById('ttt-status');
+
+const drawMsgs = [
+  "STALEMATE! NO DISCOUNT. JUST GIVE UP?", 
+  "DRAW. YOUR BRAIN IS TOO SLOW.", 
+  "TIE! SERIOUSLY? TRY HARDER OR GIVE UP.", 
+  "STALEMATE. NO 10% FOR TIES."
+];
+const lossMsgs = [
+  "BOT DESTROYED YOU. JUST GIVE UP?", 
+  "SKILL ISSUE DETECTED. WANNA CRY?", 
+  "PATHETIC. BOT WINS. TRY AGAIN?", 
+  "NOT EVEN CLOSE. GIVE UP ALREADY?", 
+  "EZ CLAP FOR BOT. 0% DISCOUNT."
+];
 
 function makeMove(index) {
   if(board[index] !== "" || !gameActive) return;
@@ -762,11 +775,48 @@ function makeMove(index) {
   updateBoard();
   
   if(checkWin("X")) { endGame("YOU WIN! 10% DISCOUNT UNLOCKED...", true); return; }
-  if(board.indexOf("") === -1) { endGame("DRAW! TRY AGAIN.", false); return; }
+  if(board.indexOf("") === -1) { endGame(drawMsgs[Math.floor(Math.random() * drawMsgs.length)], false); return; }
   
   gameActive = false;
   statusText.innerText = "BOT IS THINKING...";
+  statusText.style.color = "var(--accent-3)";
   setTimeout(botMove, 600);
+}
+
+function getBestMove() {
+  // 1. Try to win
+  let move = findWinningMove("O");
+  if (move !== -1) return move;
+  
+  // 2. Block X from winning
+  move = findWinningMove("X");
+  if (move !== -1) return move;
+  
+  // 3. Take center if available
+  if (board[4] === "") return 4;
+  
+  // 4. Take available corners
+  let corners = [0, 2, 6, 8].filter(i => board[i] === "");
+  if (corners.length > 0) return corners[Math.floor(Math.random() * corners.length)];
+  
+  // 5. Random available space
+  let emptyIndices = [];
+  for(let i=0; i<9; i++) { if(board[i] === "") emptyIndices.push(i); }
+  return emptyIndices[Math.floor(Math.random() * emptyIndices.length)];
+}
+
+function findWinningMove(player) {
+  const winPatterns = [[0,1,2], [3,4,5], [6,7,8], [0,3,6], [1,4,7], [2,5,8], [0,4,8], [2,4,6]];
+  for(let i=0; i<winPatterns.length; i++) {
+    let p = winPatterns[i];
+    let pCount = 0, emptyIdx = -1;
+    for(let j=0; j<3; j++) {
+      if(board[p[j]] === player) pCount++;
+      else if(board[p[j]] === "") emptyIdx = p[j];
+    }
+    if(pCount === 2 && emptyIdx !== -1) return emptyIdx;
+  }
+  return -1;
 }
 
 function botMove() {
@@ -775,14 +825,15 @@ function botMove() {
   if(emptyIndices.length === 0) return;
   
   soundBot();
-  let randomIndex = emptyIndices[Math.floor(Math.random() * emptyIndices.length)];
-  board[randomIndex] = "O";
+  let bestMove = getBestMove();
+  board[bestMove] = "O";
   updateBoard();
   
-  if(checkWin("O")) { endGame("BOT WINS! GAME OVER.", false); return; }
-  if(board.indexOf("") === -1) { endGame("DRAW! TRY AGAIN.", false); return; }
+  if(checkWin("O")) { endGame(lossMsgs[Math.floor(Math.random() * lossMsgs.length)], false); return; }
+  if(board.indexOf("") === -1) { endGame(drawMsgs[Math.floor(Math.random() * drawMsgs.length)], false); return; }
   
   statusText.innerText = "PLAYER 1 IS 'X'. YOUR TURN!";
+  statusText.style.color = "var(--accent-3)";
   gameActive = true;
 }
 
@@ -802,13 +853,17 @@ function endGame(msg, playerWon) {
   gameActive = false;
   statusText.innerText = msg;
   if(playerWon) {
+    statusText.style.color = "#0f0";
     soundWin();
     gameDiscountActive = true; // UNLOCK 10% DISCOUNT
     appliedBroCode = "ARCADE10";
     setTimeout(() => { showGate(true); }, 1500); 
   } else {
+    statusText.style.color = "#ff00ff";
     soundError();
     document.getElementById('resetTttBtn').style.display = "inline-block";
+    document.getElementById('resetTttBtn').innerText = "TRY AGAIN (IF YOU DARE)";
+    document.getElementById('skipToCatBtn').innerText = "I GIVE UP (SKIP TO SHOP)";
   }
 }
 
@@ -818,6 +873,7 @@ function resetBoard() {
   gameActive = true;
   updateBoard();
   statusText.innerText = "PLAYER 1 IS 'X'. YOUR TURN!";
+  statusText.style.color = "var(--accent-3)";
   document.getElementById('resetTttBtn').style.display = "none";
 }
 
@@ -1229,7 +1285,7 @@ function getPriceHTML(isWithSD) {
   if (gameDiscountActive) {
     let discountedPrice = isWithSD ? 2249 : 1619;
     let totalSaved = oldPrice - discountedPrice;
-    return '<div class="price-stack"><span class="old-price">৳' + oldPrice + '</span><span class="new-price">৳' + discountedPrice + '</span></div><span class="disc-tag">🎮 10% OFF APPLIED (SAVE ৳' + totalSaved + ')</span>';
+    return '<div class="price-stack"><span class="old-price">৳' + oldPrice + '</span><span class="new-price" style="color:#0f0; text-shadow:0 0 10px #0f0;">৳' + discountedPrice + '</span></div><span class="disc-tag" style="background:#0f0; color:#000;">🎮 10% OFF APPLIED (SAVE ৳' + totalSaved + ')</span>';
   } else {
     let totalSaved = oldPrice - basePrice;
     return '<div class="price-stack"><span class="old-price">৳' + oldPrice + '</span><span class="new-price">৳' + basePrice + '</span></div><span class="disc-tag">🔥 SAVE ৳' + totalSaved + '</span>';
@@ -1278,7 +1334,7 @@ function updateFlagshipPrice(isWithSD) {
   currentSD = isWithSD;
   var html = getPriceHTML(isWithSD);
   document.getElementById('flagshipPriceRow').innerHTML = html;
-  var priceMatch = html.match(/new-price">(.*?)</);
+  var priceMatch = html.match(/new-price[^>]*>(.*?)</);
   document.getElementById('stickyBuyPrice').innerText = priceMatch ? priceMatch[1] : '';
 }
 
@@ -1327,7 +1383,7 @@ function updateMirrorPrice(radio) {
   if (gameDiscountActive) {
     let discountedPrice = is30 ? 2789 : 3239;
     let totalSaved = oldPrice - discountedPrice;
-    priceRow.innerHTML = '<div class="price-stack"><span class="old-price">৳' + oldPrice + '</span><span class="new-price">৳' + discountedPrice + '</span></div><span class="disc-tag">🎮 10% OFF APPLIED (SAVE ৳' + totalSaved + ')</span>';
+    priceRow.innerHTML = '<div class="price-stack"><span class="old-price">৳' + oldPrice + '</span><span class="new-price" style="color:#0f0; text-shadow:0 0 10px #0f0;">৳' + discountedPrice + '</span></div><span class="disc-tag" style="background:#0f0; color:#000;">🎮 10% OFF APPLIED (SAVE ৳' + totalSaved + ')</span>';
   } else {
     let totalSaved = oldPrice - basePrice;
     priceRow.innerHTML = '<div class="price-stack"><span class="old-price">৳' + oldPrice + '</span><span class="new-price">৳' + basePrice + '</span></div><span class="disc-tag">🔥 SAVE ৳' + totalSaved + '</span>';
