@@ -6,7 +6,7 @@
 <title>SILLY SOCKS | ARCADE DROP</title>
 <style>
 /* ===========================================
-  80s SYNTHWAVE / E-COM OPTIMIZED
+  80s SYNTHWAVE / MEMPHIS THEME - STRICT SEQUENCE
 =========================================== */
 @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Montserrat:ital,wght@0,400;0,800;0,900;1,900&display=swap');
 
@@ -88,22 +88,17 @@ body {
 #tictactoe-screen.visible, #gate.visible, #checkout-screen.visible, #success-screen.visible { opacity: 1; transform: scale(1); }
 
 /* --- SCREEN 1: HERO --- */
-#hero-screen { display: flex; opacity: 1; transform: scale(1); }
+#hero-screen { cursor: pointer; display: flex; opacity: 1; transform: scale(1); }
 .hero-logo { font-family: var(--font-retro); font-size: clamp(24px, 6vw, 60px); text-align: center; color: #fff; text-shadow: 0 0 10px var(--accent-1), 4px 4px 0px var(--accent-2); margin-bottom: 20px; z-index: 10; animation: pulseLogo 2s infinite alternate; padding: 0 15px; }
 @keyframes pulseLogo { 0% { transform: scale(1) skewX(0deg); text-shadow: 0 0 10px var(--accent-1), 4px 4px 0px var(--accent-2); } 100% { transform: scale(1.05) skewX(-5deg); text-shadow: 0 0 25px var(--accent-1), 6px 6px 0px var(--accent-2); } }
 .hero-prompt { font-family: var(--font-retro); font-size: clamp(10px, 3vw, 14px); color: var(--accent-3); animation: blink 1s steps(2, start) infinite; z-index: 10; text-align: center; padding: 0 10px; line-height: 1.5; }
 @keyframes blink { to { visibility: hidden; } }
-
-/* Hero CTA Adjustments */
-.hero-cta-group { z-index: 20; display: flex; flex-direction: column; align-items: center; gap: 14px; margin-top: 30px; width: 90%; max-width: 350px;}
-.hero-enter-btn { font-family: var(--font-retro); font-size: clamp(10px, 3vw, 13px); background: #0f0; color: #000; border: 3px solid #fff; padding: 18px 20px; box-shadow: 4px 4px 0 var(--accent-1), 0 0 15px rgba(0,255,0,0.5); cursor: pointer; text-transform: uppercase; transition: all 0.2s; width: 100%; text-align: center; font-weight: bold; animation: pulseBtn 2s infinite;}
-.hero-enter-btn:hover { transform: translate(-2px,-2px); box-shadow: 6px 6px 0 var(--accent-1), 0 0 20px rgba(0,255,0,0.8); }
+.hero-cta-group { z-index: 20; display: flex; flex-direction: column; align-items: center; gap: 14px; margin-top: 30px; }
+.hero-enter-btn { font-family: var(--font-retro); font-size: clamp(11px, 3vw, 14px); background: var(--accent-3); color: #000; border: 3px solid #fff; padding: 16px 28px; box-shadow: 4px 4px 0 var(--accent-1); cursor: pointer; text-transform: uppercase; transition: all 0.2s; }
+.hero-enter-btn:hover { transform: translate(-2px,-2px); box-shadow: 6px 6px 0 var(--accent-1); }
 .hero-enter-btn:active { transform: translate(2px,2px); box-shadow: 0 0 0 transparent; }
-.hero-game-link { font-family: var(--font-retro); font-size: 9px; color: var(--accent-2); background: #000; border: 2px solid var(--accent-2); padding: 12px; cursor: pointer; letter-spacing: 0.5px; width: 100%; transition: all 0.2s; text-align: center;}
-.hero-game-link:hover { background: var(--accent-2); color: #000; }
-@keyframes pulseBtn { 0% { transform: scale(1); } 50% { transform: scale(1.03); } 100% { transform: scale(1); } }
-
-.hero-sound-toggle { position: fixed; top: 16px; right: 16px; z-index: 30; font-family: var(--font-retro); font-size: 8px; background: rgba(0,0,0,0.7); color: var(--accent-2); border: 2px solid var(--accent-2); padding: 8px 10px; cursor: pointer; backdrop-filter: blur(5px);}
+.hero-game-link { font-family: var(--font-retro); font-size: 9px; color: var(--accent-2); background: transparent; border: none; text-decoration: underline; cursor: pointer; letter-spacing: 0.5px; padding: 6px; }
+.hero-sound-toggle { position: fixed; top: 16px; right: 16px; z-index: 30; font-family: var(--font-retro); font-size: 8px; background: #000; color: var(--accent-2); border: 2px solid var(--accent-2); padding: 8px 10px; cursor: pointer; }
 
 #sock-rain { position: absolute; top: 0; left: 0; width: 100%; height: 100%; overflow: hidden; pointer-events: none; z-index: 1;}
 .falling-sock { position: absolute; top: -10%; font-size: 35px; animation: dropSock linear infinite; filter: drop-shadow(0 0 10px var(--accent-1)); }
@@ -142,21 +137,26 @@ body {
 .checkout-form { display: flex; flex-direction: column; gap: 12px; text-align: left; margin-top: 5px;}
 .checkout-form label { font-size: 9px; font-family: var(--font-retro); color: var(--accent-2); margin-top: 6px;}
 
+/* Lucrative Checkout Banner */
 .checkout-hype-banner { background: rgba(0, 255, 0, 0.15); border: 2px dashed #0f0; color: #0f0; padding: 12px; text-align: center; font-size: 11px; font-family: var(--font-retro); line-height: 1.5; margin-bottom: 15px; box-shadow: 0 0 10px rgba(0,255,0,0.2); text-shadow: 0 0 5px #0f0;}
-.tc-box { height: 100px; overflow-y: auto; background: #000; border: 2px dashed var(--accent-1); padding: 10px; font-size: 9px; color: var(--text-muted); line-height: 1.6; margin-bottom: 10px; -webkit-overflow-scrolling: touch;}
+
+.tc-box { height: 90px; overflow-y: auto; background: #000; border: 2px dashed var(--accent-1); padding: 10px; font-size: 9px; color: var(--text-muted); line-height: 1.6; margin-bottom: 10px; -webkit-overflow-scrolling: touch;}
 .tc-box strong { color: var(--accent-1); font-weight: 900;}
 .checkbox-row { display: flex; align-items: flex-start; gap: 10px; font-size: 10px; font-weight: 800; line-height: 1.4; color: #fff;}
 .checkbox-row input { appearance: none; width: 18px; height: 18px; border: 2px solid var(--card-border); background: var(--bg); cursor: pointer; min-width: 18px; margin-top: 2px;}
 .checkbox-row input:checked { background: var(--accent-3); border-color: var(--accent-3); box-shadow: inset 0 0 0 2px #000; }
 .radio-group { display: flex; gap: 15px; flex-wrap: wrap; background: #000; padding: 10px; border: 2px solid var(--card-border); }
 .radio-group label { display: flex; align-items: center; gap: 8px; color: #fff; font-family: var(--font-main); font-size: 11px; margin-top: 0; font-weight: 800; cursor: pointer;}
+
+/* bKash Alert Box */
 .bkash-info-box { background: rgba(255, 0, 127, 0.15); border: 2px dashed var(--accent-1); padding: 12px; border-radius: 4px; margin-top: 5px; display: flex; flex-direction: column; gap: 8px; }
 .bkash-number { font-family: var(--font-retro); font-size: 11px; color: var(--accent-3); text-shadow: 0 0 8px var(--accent-3); letter-spacing: 1px; }
 
 /* Trust Badges under Checkout */
 .trust-badges { display: flex; justify-content: center; gap: 10px; font-size: 8px; font-family: var(--font-retro); color: var(--text-muted); margin-top: 10px; text-align: center; flex-wrap: wrap;}
-.trust-badges span { background: #000; padding: 6px; border: 1px solid #333; color: #0f0; }
+.trust-badges span { background: #000; padding: 6px; border: 1px solid #333; }
 
+/* Success Screen Elements */
 .stat-row { font-family: var(--font-retro); font-size: 10px; margin-bottom: 15px; color: var(--accent-2); line-height: 1.5; text-align: left; }
 .stat-val { color: #0f0; text-shadow: 0 0 8px #0f0; }
 .score-tally { font-family: var(--font-retro); font-size: 24px; color: var(--accent-3); margin: 30px 0; text-shadow: 0 0 15px var(--accent-3); letter-spacing: 2px; }
@@ -166,14 +166,10 @@ body {
 #catalog { display: none; min-height: 100vh; opacity: 0; transform: translateY(100px); transition: all 0.8s cubic-bezier(0.2, 1, 0.3, 1); padding-bottom: 50px; z-index: 10; position: relative;}
 #catalog.visible { opacity: 1; transform: translateY(0); }
 
-/* Sticky Header with Timer */
-.cat-header { background: var(--card-bg); border-bottom: 4px solid var(--card-border); padding: 1rem 1.5rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 15px; position: sticky; top: 0; z-index: 100; box-shadow: var(--shadow-retro); }
-.header-brand { display: flex; flex-direction: column; gap: 5px;}
-.header-logo { font-family: var(--font-retro); font-size: clamp(14px, 4vw, 18px); color: var(--accent-2); text-shadow: 2px 2px 0 var(--accent-1); }
-.timer-container { font-family: var(--font-retro); font-size: 10px; color: #ff0055; background: #000; padding: 6px 10px; border: 2px solid #ff0055; animation: pulseBorder 1s infinite alternate; white-space: nowrap; font-weight: bold;}
-@keyframes pulseBorder { 0% { box-shadow: 0 0 5px #ff0055; } 100% { box-shadow: 0 0 15px #ff0055; } }
+.cat-header { background: var(--card-bg); border-bottom: 4px solid var(--card-border); padding: 1.5rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 15px; position: sticky; top: 0; z-index: 100; box-shadow: var(--shadow-retro); }
+.header-logo { font-family: var(--font-retro); font-size: clamp(16px, 4vw, 20px); color: var(--accent-2); text-shadow: 2px 2px 0 var(--accent-1); }
 
-.welcome-pill { display: flex; align-items: center; flex-wrap: wrap; gap: 10px; border: 2px solid var(--accent-3); padding: 6px 10px; font-family: var(--font-retro); font-size: 9px; color: var(--accent-3); background: #000; }
+.welcome-pill { display: flex; align-items: center; flex-wrap: wrap; gap: 10px; border: 2px solid var(--accent-3); padding: 8px 12px; font-family: var(--font-retro); font-size: 10px; color: var(--accent-3); background: #000; }
 .theme-toggle-btn { background: var(--bg); color: var(--text); font-weight: 900; font-family: var(--font-retro); font-size: 8px; text-transform: uppercase; cursor: pointer; border: 2px solid var(--accent-3); padding: 6px 10px; box-shadow: 2px 2px 0 var(--accent-3); transition: all 0.2s; margin: 0; }
 .theme-toggle-btn:active { transform: translate(2px, 2px); box-shadow: none; }
 .theme-toggle-btn:hover { background: var(--accent-3); color: #000; }
@@ -188,7 +184,7 @@ body {
 .cat-body { max-width: 1200px; margin: 0 auto; padding: 3rem 1.5rem 0; }
 .section-label { font-family: var(--font-retro); font-size: 14px; color: var(--text); margin-bottom: 2rem; text-shadow: 2px 2px 0 var(--accent-1); line-height: 1.4; }
 
-/* --- HIGH-CONVERTING PRODUCT CARDS --- */
+/* --- HIGH-CONVERTING PRODUCT CARDS (MIRROR TAB) --- */
 .cam-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 30px; }
 .cam-card { background: var(--card-bg); border: 4px solid var(--card-border); position: relative; transition: all 0.2s ease; box-shadow: 6px 6px 0 var(--accent-1); display: flex; flex-direction: column;}
 @media (hover: hover) { .cam-card:hover { transform: translate(-4px, -4px); box-shadow: 10px 10px 0 var(--accent-2); } .cam-card:hover .cam-img { transform: scale(1.08); filter: contrast(110%); } }
@@ -201,8 +197,7 @@ body {
 .dot { width: 6px; height: 6px; background: red; border-radius: 50%; animation: blink 1s infinite; }
 
 .cam-info { padding: 15px; flex-grow: 1; display: flex; flex-direction: column; }
-.cam-name { font-family: var(--font-retro); font-size: 13px; margin-bottom: 4px; color: var(--accent-2); text-shadow: 1px 1px 0 #000; line-height: 1.4;}
-.cam-stars { font-size: 10px; color: #ffea00; margin-bottom: 10px; font-family: var(--font-main); font-weight: 800;}
+.cam-name { font-family: var(--font-retro); font-size: 13px; margin-bottom: 8px; color: var(--accent-2); text-shadow: 1px 1px 0 #000; line-height: 1.4;}
 .cam-vibe { font-size: 12px; font-weight: 900; color: var(--text-muted); margin-bottom: 12px; text-transform: uppercase;}
 
 /* Hype Meter */
@@ -229,21 +224,49 @@ body {
 .buy-btn:hover { background: var(--accent-2); color: #000; transform: translate(-2px, -2px); box-shadow: 6px 6px 0 var(--card-border); }
 .buy-btn:active { transform: translate(4px, 4px); box-shadow: 0 0 0 transparent; }
 
+/* Tabs */
 .page-nav { display: flex; gap: 10px; padding: 0 1rem; margin-top: 2rem; justify-content: center; flex-wrap: wrap;}
 .page-tab { background: var(--bg); border: 3px solid var(--card-border); padding: 10px 15px; font-family: var(--font-retro); font-size: 9px; color: var(--text); cursor: pointer; box-shadow: 4px 4px 0 var(--card-border); transition: all 0.2s; line-height: 1.4;}
 .page-tab.active { background: var(--accent-1); color: #fff; transform: translate(2px, 2px); box-shadow: 2px 2px 0 var(--card-border); }
 
 .footer { text-align: center; padding: 3rem 1.5rem; font-family: var(--font-retro); font-size: 9px; color: var(--text-muted); border-top: 2px dashed var(--card-border); margin-top: 3rem; line-height: 2;}
 
+/* --- FLAGSHIP PRODUCT LAYOUT (replaces 9-card color grid) --- */
+.explainer-box { background: var(--card-bg); border: 3px solid var(--card-border); padding: 20px; margin-bottom: 30px; box-shadow: 5px 5px 0 var(--accent-2); }
+.explainer-title { font-family: var(--font-retro); font-size: 12px; color: var(--accent-3); margin-bottom: 14px; }
+.explainer-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px; }
+.explainer-item { font-size: 12px; font-weight: 800; color: var(--text); background: #000; border: 2px dashed var(--accent-2); padding: 10px 12px; line-height: 1.5; }
+
+.urgency-timer { font-family: var(--font-retro); font-size: 10px; background: #000; color: var(--accent-3); border: 2px solid var(--accent-3); padding: 10px 14px; text-align: center; margin-bottom: 20px; line-height: 1.8; }
+.urgency-timer span { color: #0f0; text-shadow: 0 0 8px #0f0; }
+
+.flagship-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; background: var(--card-bg); border: 4px solid var(--card-border); box-shadow: 8px 8px 0 var(--accent-1); padding: 20px; }
+@media (max-width: 760px) { .flagship-wrap { grid-template-columns: 1fr; } }
+.flagship-img-wrap { background: #fff; border: 3px solid var(--card-border); height: 320px; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; }
+.flagship-img-wrap img { width: 100%; height: 100%; object-fit: contain; padding: 20px; }
+.flagship-badge { position: absolute; top: 10px; left: 10px; background: rgba(0,0,0,0.85); color: #0f0; font-size: 9px; font-family: var(--font-main); font-weight: 900; padding: 6px 10px; border: 1px solid #0f0; }
+
+.swatch-row { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0 4px; }
+.swatch { width: 32px; height: 32px; border-radius: 50%; border: 3px solid var(--card-border); cursor: pointer; transition: transform 0.15s; }
+.swatch.active { border-color: var(--accent-3); transform: scale(1.15); box-shadow: 0 0 8px var(--accent-3); }
+.swatch-label { font-size: 11px; font-weight: 900; color: var(--accent-2); margin-top: 4px; text-transform: uppercase; }
+
+.qty-nudge { font-size: 10px; font-weight: 800; color: var(--text-muted); margin: 6px 0 12px; line-height: 1.5; }
+
+.sticky-buy-bar { position: fixed; bottom: 0; left: 0; width: 100%; background: var(--card-bg); border-top: 4px solid var(--card-border); padding: 10px 16px; display: none; align-items: center; justify-content: space-between; gap: 12px; z-index: 9998; box-shadow: 0 -4px 15px rgba(0,0,0,0.4); }
+.sticky-buy-bar.visible { display: flex; }
+.sticky-buy-price { font-family: var(--font-retro); font-size: 13px; color: var(--accent-3); }
+.sticky-buy-btn { font-family: var(--font-retro); font-size: 10px; background: var(--accent-1); color: #fff; border: 2px solid var(--card-border); padding: 10px 16px; cursor: pointer; white-space: nowrap; }
+
 /* --- SOCIAL PROOF TOAST & FLOATING BUTTONS --- */
-.floating-actions { position: fixed; bottom: 20px; right: 20px; display: flex; flex-direction: column; gap: 15px; z-index: 9999; }
+.floating-actions { position: fixed; bottom: 70px; right: 20px; display: flex; flex-direction: column; gap: 15px; z-index: 9997; }
 .float-btn { width: 50px; height: 50px; display: flex; align-items: center; justify-content: center; border: 3px solid var(--card-border); cursor: pointer; box-shadow: 4px 4px 0 var(--card-border); transition: all 0.2s; border-radius: 50%; }
 .float-btn:active { transform: translate(4px, 4px); box-shadow: 0 0 0 transparent; }
 .float-btn svg { width: 26px; height: 26px; fill: #fff; }
 .ig-btn { background: var(--accent-1); }
 .wa-btn { background: #25D366; border-color: #000; box-shadow: 4px 4px 0 #000; }
 
-#social-proof-toast { position: fixed; bottom: 20px; left: 20px; background: var(--card-bg); border: 3px solid var(--accent-2); padding: 12px 15px; display: flex; align-items: center; gap: 12px; z-index: 9998; box-shadow: 6px 6px 0 rgba(0,0,0,0.5); transform: translateX(-150%); transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); max-width: 300px;}
+#social-proof-toast { position: fixed; bottom: 75px; left: 20px; background: var(--card-bg); border: 3px solid var(--accent-2); padding: 12px 15px; display: flex; align-items: center; gap: 12px; z-index: 9998; box-shadow: 6px 6px 0 rgba(0,0,0,0.5); transform: translateX(-150%); transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); max-width: 300px;}
 #social-proof-toast.show { transform: translateX(0); }
 .toast-img { width: 45px; height: 45px; object-fit: cover; border: 2px solid #fff; background: #fff;}
 .toast-text { font-family: var(--font-main); font-size: 10px; line-height: 1.4; color: #fff; font-weight: 700;}
@@ -257,7 +280,8 @@ body {
   .theme-toggle-btn { margin-left: 0; margin-top: 5px; }
   .retro-box { padding: 1.5rem 1rem; width: 95%; }
   .cam-grid { grid-template-columns: 1fr; }
-  #social-proof-toast { bottom: 90px; left: 10px; right: 10px; max-width: calc(100% - 20px); }
+  #social-proof-toast { bottom: 85px; left: 10px; right: 10px; max-width: calc(100% - 20px); }
+  .floating-actions { bottom: 85px; }
 }
 </style>
 </head>
@@ -278,11 +302,10 @@ body {
 <div id="hero-screen" class="screen-layer">
   <div id="sock-rain"></div>
   <h1 class="hero-logo">SILLY SOCKS</h1>
-  <p class="hero-prompt">>> THE VAULT IS OPEN <<</p>
-  
+  <p class="hero-prompt">>> THE NOSTALGIA VAULT IS OPEN <<</p>
   <div class="hero-cta-group">
-    <div class="hero-enter-btn" onclick="event.stopPropagation(); leaveHero('catalog');">🛒 QUICK BUY (ENTER SHOP)</div>
-    <div class="hero-game-link" onclick="event.stopPropagation(); leaveHero('game');">🎮 OR PLAY MINIGAME FOR 10% OFF</div>
+    <button class="hero-enter-btn" onclick="event.stopPropagation(); leaveHero('catalog');">🛒 ENTER THE SHOP</button>
+    <button class="hero-game-link" onclick="event.stopPropagation(); leaveHero('game');">🎮 or play a quick game for a discount code</button>
   </div>
 </div>
 
@@ -307,7 +330,7 @@ body {
     <div class="btn-group">
       <button class="retro-btn" id="resetTttBtn" style="display:none;" onclick="resetBoard()">REMATCH</button>
       <button class="retro-btn" id="skipTttBtn" onclick="showGate(false)">I HAVE A CODE</button>
-      <button class="retro-btn" onclick="skipToCatalog()" style="background:#333; border-color:#555;">SKIP TO SHOP</button>
+      <button class="retro-btn" onclick="skipToCatalog()">SKIP TO CATALOG</button>
     </div>
   </div>
 </div>
@@ -319,11 +342,13 @@ body {
     <div class="gate-title" id="gate-title">SYSTEM LOCKED</div>
     <p class="gate-sub" id="gate-sub" style="margin-bottom:1.5rem;">ENTER PLAYER 1 REFERRAL CODE</p>
     
+    <!-- Code Input Area -->
     <div class="input-row" id="gate-input-area">
       <input id="refInput" class="retro-input" type="text" placeholder="CODE..." autocomplete="off" />
       <button class="retro-btn" id="enterBtn" onclick="checkCode()" style="margin:0; width:100px;">START</button>
     </div>
 
+    <!-- Leaderboard Initials Area -->
     <div class="input-row" id="lb-input-area" style="display:none;">
       <input id="lbInput" class="retro-input" type="text" placeholder="INITIALS..." maxlength="10" autocomplete="off" />
       <button class="retro-btn" onclick="saveInitialsAndEnter()" style="margin:0; width:100px;">SAVE</button>
@@ -337,6 +362,7 @@ body {
 <div id="checkout-screen" class="screen-layer">
   <div class="retro-box" style="margin: 20px auto; max-height: 90vh; overflow-y: auto;">
     
+    <!-- CRO: Dynamic Savings Banner -->
     <div id="checkout-savings-banner" class="checkout-hype-banner">
       ⚡ YOU ARE SAVING ৳XXX TODAY + FREE SHIPPING ⚡
     </div>
@@ -354,13 +380,17 @@ body {
       <textarea name="Delivery Address" class="retro-input" required placeholder="HOUSE, ROAD, DHAKA..." rows="3" style="resize:none; font-family: var(--font-main);"></textarea>
       
       <label id="lbl-color">> SELECT PRODUCT COLOR *</label>
-      <select name="Product Color" id="form-color" class="retro-select" required></select>
+      <select name="Product Color" id="form-color" class="retro-select" required>
+        <!-- Options injected dynamically -->
+      </select>
 
       <label id="lbl-addons">> CHOOSE ADD-ONS *</label>
-      <select name="Add-ons" id="form-addons" class="retro-select" required onchange="updateCheckoutSavingsBanner()"></select>
+      <select name="Add-ons" id="form-addons" class="retro-select" required onchange="updateCheckoutSavingsBanner()">
+        <!-- Options injected dynamically -->
+      </select>
 
       <label>> BRO CODE (OPTIONAL)</label>
-      <input type="text" name="BRO CODE" id="form-brocode" class="retro-input" placeholder="FOR EXTRA DISCOUNT" />
+      <input type="text" name="BRO CODE" id="form-brocode" class="retro-input" placeholder="FOR 5% OFF & FREE DEL" />
 
       <label>> QUANTITY *</label>
       <select name="Quantity" class="retro-select" required>
@@ -376,6 +406,7 @@ body {
       </div>
       <p style="font-size: 10px; color: var(--accent-3); font-weight:800; margin-top:-4px;">💚 PAY VIA BKASH & SKIP THE COD VERIFICATION CALL — ORDER SHIPS FASTER</p>
 
+      <!-- bKash Send Money Notification Banner & TRX Input -->
       <div id="bkash-field" class="bkash-info-box" style="display:none;">
         <div class="bkash-number">> SEND MONEY (PERSONAL): 01961515240</div>
         <label style="margin-top: 4px;">> BKASH TRANSACTION ID *</label>
@@ -384,9 +415,9 @@ body {
 
       <label>> BUYER PROTECTION</label>
       <div class="checkout-hype-banner" style="margin-bottom:10px; text-align:left; line-height:1.7;">
-        <span style="color:#0f0; font-weight:900;">✅ 100% PARCEL CHECKING ALLOWED BEFORE PAYMENT</span><br>
+        ✅ 100% PARCEL CHECKING ALLOWED BEFORE PAYMENT<br>
         ✅ 3-DAY REPLACEMENT WARRANTY ON MANUFACTURING DEFECTS<br>
-        ✅ ORDERS DISPATCHED WITHIN 24-48H
+        ✅ ORDERS PACKED & DISPATCHED WITHIN 24-48H
       </div>
 
       <details style="margin-bottom:10px;">
@@ -404,11 +435,12 @@ body {
         <input type="checkbox" required /> I have read and agree to the Privacy Policy.
       </label>
       <label class="checkbox-row">
-        <input type="checkbox" required /> I accept the Checking Policy & Terms & Conditions.
+        <input type="checkbox" required /> I accept the Terms & Conditions above.
       </label>
 
       <button type="submit" id="submitOrderBtn" class="retro-btn" style="background: var(--accent-3); color: #000; font-size: 12px; margin-top: 15px;">CONFIRM ORDER</button>
       
+      <!-- Trust Signals for CRO -->
       <div class="trust-badges">
         <span>🔒 100% SECURE</span>
         <span>✅ CHECK BEFORE PAY</span>
@@ -441,17 +473,15 @@ body {
 <!-- SCREEN 6: CATALOG SECTION -->
 <div id="catalog">
   <header class="cat-header">
-    <div class="header-brand">
-      <div class="header-logo">SILLY SOCKS</div>
-      <div class="timer-container" id="top-timer">FLASH DROP ENDS: 04:59:59</div>
-    </div>
+    <div class="header-logo">SILLY SOCKS</div>
     <div class="welcome-pill">
       PLAYER 1: <span id="broName" style="margin: 0 5px;">???</span>
-      <button class="theme-toggle-btn" onclick="openGameFromCatalog()" style="border-color:#ff00ff; color:#ff00ff;">🎮 GOT CODE?</button>
+      <button class="theme-toggle-btn" onclick="openGameFromCatalog()">🎮 GOT A CODE?</button>
       <button class="theme-toggle-btn" id="themeToggle" onclick="toggleTheme()">[ DAY MODE ]</button>
     </div>
   </header>
 
+  <!-- Arcade Leaderboard Ticker -->
   <div class="ticker-wrap" id="leaderboardWrap">
     <div class="ticker" id="lbTickerContainer"></div>
   </div>
@@ -465,11 +495,54 @@ body {
     <div class="page-tab" id="tab2" onclick="showPage(2)">LVL 2: DECOR</div>
   </div>
   
-  <!-- LVL 1 (CAMERAS) -->
+  <!-- LVL 1 (CAMERAS - FLAGSHIP LAYOUT) -->
   <div class="cat-body" id="page1Body">
     <div class="section-label">> THE NOSTALGIA VAULT</div>
-    <div id="camGrid" class="cam-grid"></div>
+
+    <!-- Product explainer -->
+    <div class="explainer-box">
+      <div class="explainer-title">> WHAT YOU'RE GETTING</div>
+      <div class="explainer-list">
+        <div class="explainer-item">📸 REAL CLIP-ON CAMERA — TAKES PHOTOS & SHORT VIDEOS</div>
+        <div class="explainer-item">🔌 USB RECHARGEABLE — NO BATTERIES NEEDED</div>
+        <div class="explainer-item">🔑 KEYCHAIN SIZE — CLIPS TO BAGS, BELTS, KEYS</div>
+        <div class="explainer-item">💾 SD CARD ADD-ON TO SAVE MORE PHOTOS/VIDEOS</div>
+      </div>
+    </div>
+
+    <!-- Live Midnight Dispatch Timer -->
+    <div class="urgency-timer" id="dispatchTimer">🕒 ORDER IN THE NEXT <span id="timerText">--:--:--</span> FOR SAME-DAY DISPATCH</div>
+
+    <div class="flagship-wrap" id="flagshipCard">
+      <div class="flagship-img-wrap">
+        <div class="flagship-badge" id="flagshipBadge">🔥 BESTSELLER</div>
+        <img id="flagshipImg" src="cam_white.jpg" alt="Thumb Camera" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'300\' height=\'200\'><rect width=\'100%25\' height=\'100%25\' fill=\'%23333\'/><text x=\'50%25\' y=\'50%25\' font-family=\'monospace\' font-size=\'14\' fill=\'%23fff\' dominant-baseline=\'middle\' text-anchor=\'middle\'>IMG MISSING</text></svg>'" />
+      </div>
+      <div class="cam-info" style="padding: 0;">
+        <div class="cam-name" id="flagshipName">Cloud 99 White</div>
+        <div class="cam-vibe" id="flagshipVibe">Clean & modern</div>
+
+        <div class="swatch-label">> PICK A COLOR</div>
+        <div class="swatch-row" id="swatchRow"></div>
+
+        <div class="cam-perks" style="margin-top: 15px;">
+          <span class="perk perk-highlight">>> FREE DELIVERY NATIONWIDE</span>
+          <span class="perk">>> PARCEL CHECK ALLOWED</span>
+        </div>
+
+        <div class="variant-toggle">
+          <label class="toggle-opt"><input type="radio" id="flagship_sd_without" name="flagship_sd" value="without" checked onchange="updateFlagshipPrice(false); soundClick();"> NO SD CARD</label>
+          <label class="toggle-opt"><input type="radio" id="flagship_sd_with" name="flagship_sd" value="with" onchange="updateFlagshipPrice(true); soundClick();"> 8GB SD CARD</label>
+        </div>
+
+        <p class="qty-nudge">🎁 A lot of people order 2 — one to keep, one to gift. You can set quantity at checkout.</p>
+
+        <div class="price-row" id="flagshipPriceRow"></div>
+        <button class="buy-btn" onclick="buyFlagship()">SECURE ITEM</button>
+      </div>
+    </div>
   </div>
+
 
   <!-- LVL 2 (ROOM DECOR) -->
   <div class="cat-body" id="page2Body" style="display:none;">
@@ -478,7 +551,7 @@ body {
       <!-- Traffic Mirror Hardcoded Card -->
       <div class="cam-card">
         <div class="img-wrapper">
-          <div class="live-watch"><div class="dot"></div> WATCHING: <span class="random-watch">18</span></div>
+          <div class="live-watch"><div class="dot"></div> WATCHING: 18</div>
           <img src="mirror_placeholder.jpg" class="cam-img" alt="Traffic Mirror" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'300\' height=\'200\'><rect width=\'100%\' height=\'100%\' fill=\'#333\'/><text x=\'50%\' y=\'50%\' font-family=\'monospace\' font-size=\'14\' fill=\'#fff\' dominant-baseline=\'middle\' text-anchor=\'middle\'>IMG MISSING</text></svg>'" />
         </div>
         <div class="cam-info">
@@ -489,7 +562,7 @@ body {
           <div class="hype-meter-container"><div class="hype-meter-fill" style="width: 78%; background: #0f0;"></div></div>
           <div class="hype-text" style="color: #0f0;">78% CLAIMED</div>
 
-          <div class="cam-perks">
+          <div class="cam-perks" style="margin-top: 6px;">
             <span class="perk perk-highlight">>> FREE DELIVERY NATIONWIDE</span>
             <span class="perk">>> PARCEL CHECK ALLOWED</span>
           </div>
@@ -516,8 +589,14 @@ body {
   </div>
   
   <div class="footer">
-    DM US ON IG OR WA FOR INQUIRIES<br><br>ALL SECURED ORDERS ARE FINAL
+    DM US ON IG FOR INQUIRIES<br><br>ALL SECURED ORDERS ARE FINAL
   </div>
+</div>
+
+<!-- Sticky Buy Bar (Appears when scrolling past flagship) -->
+<div class="sticky-buy-bar" id="stickyBuyBar">
+  <span class="sticky-buy-price" id="stickyBuyPrice">৳1799</span>
+  <button class="sticky-buy-btn" onclick="buyFlagship()">SECURE ITEM</button>
 </div>
 
 <!-- Floating Action Buttons -->
@@ -532,7 +611,7 @@ body {
   </div>
 </div>
 
-<!-- Social Proof Toast Notification -->
+<!-- Social Proof Toast Notification (CRO) -->
 <div id="social-proof-toast">
   <img src="cam_white.jpg" id="toast-img-src" class="toast-img" alt="Purchased Item">
   <div>
@@ -902,7 +981,7 @@ function unlockCatalog(playerName) {
     setTimeout(() => {
       catalog.classList.add("visible");
       window.scrollTo({top: 0, behavior: 'smooth'});
-      startSocialProofTimer();
+      startSocialProofTimer(); // Start the CRO popups
     }, 50);
   }, 600);
 }
@@ -928,7 +1007,7 @@ function updateCheckoutSavingsBanner() {
   banner.innerText = `⚡ YOU ARE SAVING ৳${savings} TODAY + FREE SHIPPING ⚡`;
 }
 
-// --- SECURE CHECKOUT LOGIC ---
+// --- SECURE CHECKOUT LOGIC FOR CAMERA GEAR ---
 function openCheckout(itemColor, isWithSD) {
   soundClick();
   document.getElementById('catalog').style.opacity = "0";
@@ -971,6 +1050,7 @@ function openCheckout(itemColor, isWithSD) {
   }, 400);
 }
 
+// --- SECURE CHECKOUT LOGIC FOR MIRROR ---
 function openCheckoutMirror() {
   soundClick();
   document.getElementById('catalog').style.opacity = "0";
@@ -1042,7 +1122,7 @@ function animateScore() {
     if(score >= target) {
       score = target;
       clearInterval(interval);
-      if(soundEnabled) playTone(880, 'sine', 0.5);
+      if(soundEnabled) playTone(880, 'sine', 0.5); // Final Ding
     } else {
       if(soundEnabled) playTone(400 + (score % 200), 'square', 0.02, 0.01); 
     }
@@ -1119,65 +1199,95 @@ document.getElementById("orderForm").addEventListener("submit", function(e) {
   });
 });
 
-// --- High-Converting Render Logic ---
+// --- High-Converting Render Logic (flagship single-product layout) ---
 function getPriceHTML(isWithSD) {
   if (isWithSD) return '<div class="price-stack"><span class="old-price">৳2699</span><span class="new-price">৳2199</span></div><span class="disc-tag">🔥 SAVE ৳500</span>';
   else return '<div class="price-stack"><span class="old-price">৳2199</span><span class="new-price">৳1799</span></div><span class="disc-tag">🔥 SAVE ৳400</span>';
 }
 
-var camData = [
-  { n:"Cloud 99 White", v:"Clean & modern", i:"cam_white.jpg", c:"White", hype:"92", r:"4.9/5 (128 Reviews)" },
-  { n:"Midnight Black",  v:"Neon noir aesthetic", i:"cam_black.jpg", c:"Black", hype:"88", r:"4.8/5 (94 Reviews)" },
-  { n:"Arcade Red", v:"Bold streetwear energy", i:"cam_red.jpg", c:"Red", hype:"75", r:"4.7/5 (56 Reviews)" },
-  { n:"Pac-Maze Yellow", v:"Sunny 80s nostalgia", i:"cam_yellow.jpg", c:"Yellow", hype:"81", r:"4.8/5 (82 Reviews)" },
-  { n:"Synthwave Blue", v:"Cool coastal feel", i:"cam_blue.jpg", c:"Blue", hype:"79", r:"4.6/5 (45 Reviews)" },
-  { n:"Clear Gameboy", v:"Raw Y2K tech", i:"cam_transparent.jpg", c:"Transparent", hype:"95", r:"5.0/5 (215 Reviews)" },
-  { n:"Glitch Green", v:"90s personality", i:"cam_green.jpg", c:"Green", hype:"90", r:"4.9/5 (112 Reviews)" },
-  { n:"Mint Condition", v:"Rare retro drop", i:"cam_lightgreen.jpg", c:"Light Green", hype:"85", r:"4.7/5 (67 Reviews)" },
-  { n:"Console Grey", v:"Classic 8-bit vibes", i:"cam_grey.jpg", c:"Grey", hype:"82", r:"4.8/5 (89 Reviews)" }
+var camColors = [
+  { n:"Cloud 99 White", v:"Clean & modern", i:"cam_white.jpg", c:"White", swatch:"#ffffff", badge:"🔥 BESTSELLER" },
+  { n:"Midnight Black", v:"Neon noir aesthetic", i:"cam_black.jpg", c:"Black", swatch:"#111111", badge:"🔥 BESTSELLER" },
+  { n:"Clear Gameboy", v:"Raw Y2K tech", i:"cam_transparent.jpg", c:"Transparent", swatch:"#d9f7ff", badge:"🔥 BESTSELLER" },
+  { n:"Glitch Green", v:"90s personality", i:"cam_green.jpg", c:"Green", swatch:"#39ff6a", badge:"✨ FAN FAVORITE" },
+  { n:"Arcade Red", v:"Bold streetwear energy", i:"cam_red.jpg", c:"Red", swatch:"#ff2b2b", badge:"✨ FAN FAVORITE" },
+  { n:"Pac-Maze Yellow", v:"Sunny 80s nostalgia", i:"cam_yellow.jpg", c:"Yellow", swatch:"#ffe23d", badge:"✨ FAN FAVORITE" },
+  { n:"Synthwave Blue", v:"Cool coastal feel", i:"cam_blue.jpg", c:"Blue", swatch:"#3d8bff", badge:"✨ FAN FAVORITE" },
+  { n:"Mint Condition", v:"Rare retro drop", i:"cam_lightgreen.jpg", c:"Light Green", swatch:"#b6ffcf", badge:"✨ FAN FAVORITE" },
+  { n:"Console Grey", v:"Classic 8-bit vibes", i:"cam_grey.jpg", c:"Grey", swatch:"#9a9a9a", badge:"✨ FAN FAVORITE" }
 ];
+var currentColorIdx = 0;
+var currentSD = false;
 
-function renderGrid(dataArray, gridId, prefix) {
-  var grid = document.getElementById(gridId);
+function renderSwatches() {
+  var row = document.getElementById('swatchRow');
+  row.innerHTML = '';
+  camColors.forEach((col, i) => {
+    var sw = document.createElement('div');
+    sw.className = 'swatch' + (i === currentColorIdx ? ' active' : '');
+    sw.style.background = col.swatch;
+    sw.title = col.n;
+    sw.onclick = function() { selectColor(i); };
+    row.appendChild(sw);
+  });
+}
 
-  for (var x = 0; x < dataArray.length; x++) {
-    var c = dataArray[x];
-    var card = document.createElement("div");
-    card.className = "cam-card";
+function selectColor(i) {
+  soundClick();
+  currentColorIdx = i;
+  var col = camColors[i];
+  document.getElementById('flagshipImg').src = col.i;
+  document.getElementById('flagshipName').innerText = col.n;
+  document.getElementById('flagshipVibe').innerText = col.v;
+  document.getElementById('flagshipBadge').innerText = col.badge;
+  renderSwatches();
+}
 
-    var initialPriceHTML = getPriceHTML(false); 
-    var watchers = Math.floor(Math.random() * 15) + 5; 
+function updateFlagshipPrice(isWithSD) {
+  currentSD = isWithSD;
+  var html = getPriceHTML(isWithSD);
+  document.getElementById('flagshipPriceRow').innerHTML = html;
+  var priceMatch = html.match(/new-price">(.*?)</);
+  document.getElementById('stickyBuyPrice').innerText = priceMatch ? priceMatch[1] : '';
+}
 
-    card.innerHTML =
-      '<div class="img-wrapper">' +
-        '<div class="live-watch"><div class="dot"></div> WATCHING: ' + watchers + '</div>' +
-        '<img src="' + c.i + '" class="cam-img" alt="' + c.n + '" onerror="this.src=\'data:image/svg+xml;utf8,<svg xmlns=\\\'http://www.w3.org/2000/svg\\\' width=\\\'300\\\' height=\\\'200\\\'><rect width=\\\'100%\\\' height=\\\'100%\\\' fill=\\\'#333\\\'/><text x=\\\'50%\\\' y=\\\'50%\\\' font-family=\\\'monospace\\\' font-size=\\\'14\\\' fill=\\\'#fff\\\' dominant-baseline=\\\'middle\\\' text-anchor=\\\'middle\\\'>IMG MISSING</text></svg>\'" />' +
-      '</div>' +
-      '<div class="cam-info">' +
-        '<div class="cam-name">' + c.n + '</div>' +
-        '<div class="cam-stars">⭐⭐⭐⭐⭐ ' + c.r + '</div>' +
-        '<div class="cam-vibe">' + c.v + '</div>' +
-        '<div class="hype-meter-container"><div class="hype-meter-fill" style="width: ' + c.hype + '%;"></div></div>' +
-        '<div class="hype-text">' + c.hype + '% CLAIMED</div>' +
-        '<div class="cam-perks"><span class="perk perk-highlight">>> FREE DELIVERY NATIONWIDE</span><span class="perk">>> PARCEL CHECK ALLOWED</span></div>' +
-        '<div class="variant-toggle">' +
-          '<label class="toggle-opt"><input type="radio" id="sdopt_' + prefix + x + '_without" name="sdopt' + prefix + x + '" value="without" checked onchange="updatePrice(this, \'' + prefix + x + '\'); soundClick();"> NO SD CARD</label>' +
-          '<label class="toggle-opt"><input type="radio" id="sdopt_' + prefix + x + '_with" name="sdopt' + prefix + x + '" value="with" onchange="updatePrice(this, \'' + prefix + x + '\'); soundClick();"> 8GB SD CARD</label>' +
-        '</div>' +
-        '<div class="price-row" id="priceRow' + prefix + x + '">' + initialPriceHTML + '</div>' +
-        '<button class="buy-btn" onclick="openCheckout(\'' + c.c + '\', document.getElementById(\'sdopt_' + prefix + x + '_with\').checked)">SECURE ITEM</button>' +
-      '</div>';
-    grid.appendChild(card);
+function buyFlagship() {
+  openCheckout(camColors[currentColorIdx].c, currentSD);
+}
+
+renderSwatches();
+selectColor(0);
+updateFlagshipPrice(false);
+
+// --- Sticky mobile buy bar: appears once the flagship card scrolls out of view ---
+window.addEventListener('scroll', function() {
+  var bar = document.getElementById('stickyBuyBar');
+  var card = document.getElementById('flagshipCard');
+  if (!card || catalog.style.display === 'none') { bar.classList.remove('visible'); return; }
+  var rect = card.getBoundingClientRect();
+  if (rect.bottom < 0 && document.getElementById('page1Body').style.display !== 'none') {
+    bar.classList.add('visible');
+  } else {
+    bar.classList.remove('visible');
   }
+});
+
+// --- Honest urgency timer: counts down to local midnight (same-day dispatch cutoff) ---
+function updateDispatchTimer() {
+  var now = new Date();
+  var midnight = new Date(now);
+  midnight.setHours(24, 0, 0, 0); // Always counts to the end of the current day
+  var diff = midnight - now;
+  var h = Math.floor(diff / 3600000);
+  var m = Math.floor((diff % 3600000) / 60000);
+  var s = Math.floor((diff % 60000) / 1000);
+  var pad = n => n.toString().padStart(2, '0');
+  document.getElementById('timerText').innerText = pad(h) + ':' + pad(m) + ':' + pad(s);
 }
+updateDispatchTimer();
+setInterval(updateDispatchTimer, 1000);
 
-renderGrid(camData, "camGrid", "p1_");
-
-function updatePrice(radio, index) {
-  var isWithSD = radio.value === 'with';
-  document.getElementById('priceRow' + index).innerHTML = getPriceHTML(isWithSD);
-}
-
+// --- Mirror Toggle Logic ---
 function updateMirrorPrice(radio) {
   var priceRow = document.getElementById('mirrorPriceRow');
   if(radio.value === '30cm') {
@@ -1187,6 +1297,7 @@ function updateMirrorPrice(radio) {
   }
 }
 
+// --- Page Tabs Logic ---
 function showPage(page) {
   soundClick();
   document.getElementById('tab1').className = 'page-tab' + (page === 1 ? ' active' : '');
@@ -1207,27 +1318,7 @@ function showPage(page) {
   }, 10);
 }
 
-// --- COUNTDOWN TIMER LOGIC ---
-function startCountdown() {
-  let timerElement = document.getElementById("top-timer");
-  let endTime = new Date().getTime() + (4 * 60 * 60 * 1000) + (35 * 60 * 1000); 
-
-  setInterval(function() {
-    let now = new Date().getTime();
-    let distance = endTime - now;
-    
-    if(distance < 0) { endTime = new Date().getTime() + (4 * 60 * 60 * 1000); distance = endTime - now; } 
-
-    let hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    let minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-    let seconds = Math.floor((distance % (1000 * 60)) / 1000);
-    
-    timerElement.innerHTML = `FLASH DROP ENDS: 0${hours}:${minutes < 10 ? '0'+minutes : minutes}:${seconds < 10 ? '0'+seconds : seconds}`;
-  }, 1000);
-}
-startCountdown();
-
-// --- SOCIAL PROOF NOTIFICATION LOGIC ---
+// --- SOCIAL PROOF NOTIFICATION LOGIC (CRO) ---
 const buyers = ["Siam", "Abid", "Rifah", "Tasin", "Mafruha", "Labby", "Azha", "Farhan", "Nafisa", "Aunu", "Faysol"];
 const locations = ["Dhaka", "Chittagong", "Sylhet", "Rajshahi", "Khulna", "Uttara", "Mirpur", "Dhanmondi"];
 
@@ -1241,14 +1332,18 @@ function showToast() {
   const toast = document.getElementById('social-proof-toast');
   const buyer = buyers[Math.floor(Math.random() * buyers.length)];
   const loc = locations[Math.floor(Math.random() * locations.length)];
-  const item = camData[Math.floor(Math.random() * camData.length)];
-  const time = Math.floor(Math.random() * 12) + 1; 
+  
+  // Pick a random camera color to show they bought it
+  const item = camColors[Math.floor(Math.random() * camColors.length)];
+  const time = Math.floor(Math.random() * 12) + 1; // Random time 1-12 mins ago
 
   document.getElementById('toast-img-src').src = item.i;
   document.getElementById('toast-msg').innerHTML = `${buyer} from ${loc} just secured the <strong>${item.n}</strong>!`;
   document.getElementById('toast-time').innerText = `${time} min${time > 1 ? 's' : ''} ago`;
 
   toast.classList.add('show');
+  
+  // Hide after 4 seconds
   setTimeout(() => { toast.classList.remove('show'); }, 4000);
 }
 
