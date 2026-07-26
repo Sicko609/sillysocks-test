@@ -6,9 +6,10 @@
 <title>SILLY SOCKS | ARCADE DROP</title>
 <style>
 /* ===========================================
-80s SYNTHWAVE / MEMPHIS THEME - E-COM OPTIMIZED
+  80s SYNTHWAVE / E-COM OPTIMIZED
 =========================================== */
 @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Montserrat:ital,wght@0,400;0,800;0,900;1,900&display=swap');
+
 :root {
   --bg: #0b0c10;
   --text: #ffffff;
@@ -24,6 +25,7 @@
   --font-retro: 'Press Start 2P', cursive;
   --shadow-retro: 0 0 10px var(--accent-1), 0 0 20px var(--accent-2);
 }
+
 [data-theme="light"] {
   --bg: #f4f4f4;
   --text: #111111;
@@ -37,7 +39,9 @@
   --grid-glow: transparent;
   --shadow-retro: 8px 8px 0px var(--card-border);
 }
+
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
 body {
   font-family: var(--font-main);
   background-color: var(--bg);
@@ -48,6 +52,8 @@ body {
   transition: background-color 0.5s, color 0.5s;
   -webkit-tap-highlight-color: transparent;
 }
+
+/* --- 80s PERSPECTIVE GRID --- */
 .synth-grid {
   position: fixed; bottom: -20vh; left: -50vw; width: 200vw; height: 70vh;
   background-image: 
@@ -64,6 +70,7 @@ body {
   0% { transform: perspective(600px) rotateX(70deg) translateY(0); }
   100% { transform: perspective(600px) rotateX(70deg) translateY(50px); }
 }
+
 .memphis-shapes { position: fixed; top:0; left:0; width:100%; height:100%; z-index:-1; pointer-events: none; opacity: 0; transition: opacity 0.5s; }
 [data-theme="light"] .memphis-shapes { opacity: 1; }
 .shape { position: absolute; border: 4px solid var(--card-border); }
@@ -71,6 +78,7 @@ body {
 .triangle { width: 0; height: 0; border-left: 50px solid transparent; border-right: 50px solid transparent; border-bottom: 80px solid var(--accent-1); border-top: none; background: transparent; top: 70%; right: 10%; animation: float 12s infinite alternate-reverse; }
 .squiggle { width: 120px; height: 15px; background: repeating-linear-gradient(45deg, var(--accent-2), var(--accent-2) 10px, transparent 10px, transparent 20px); top: 25%; right: 15%; animation: spin 15s linear infinite; }
 
+/* --- SCREENS CONFIGURATION --- */
 .screen-layer {
   position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
   display: flex; flex-direction: column; align-items: center; justify-content: center;
@@ -79,26 +87,36 @@ body {
 #tictactoe-screen, #gate, #checkout-screen, #success-screen { display: none; opacity: 0; transform: scale(0.8); }
 #tictactoe-screen.visible, #gate.visible, #checkout-screen.visible, #success-screen.visible { opacity: 1; transform: scale(1); }
 
-/* --- SCREEN 1: HERO (OPTIMIZED FOR ENTRY) --- */
+/* --- SCREEN 1: HERO --- */
 #hero-screen { display: flex; opacity: 1; transform: scale(1); }
 .hero-logo { font-family: var(--font-retro); font-size: clamp(24px, 6vw, 60px); text-align: center; color: #fff; text-shadow: 0 0 10px var(--accent-1), 4px 4px 0px var(--accent-2); margin-bottom: 20px; z-index: 10; animation: pulseLogo 2s infinite alternate; padding: 0 15px; }
 @keyframes pulseLogo { 0% { transform: scale(1) skewX(0deg); text-shadow: 0 0 10px var(--accent-1), 4px 4px 0px var(--accent-2); } 100% { transform: scale(1.05) skewX(-5deg); text-shadow: 0 0 25px var(--accent-1), 6px 6px 0px var(--accent-2); } }
-.hero-actions { z-index: 10; display: flex; flex-direction: column; gap: 15px; width: 90%; max-width: 350px; margin-top: 20px; }
-.hero-btn { padding: 18px; font-family: var(--font-retro); font-size: 11px; cursor: pointer; text-transform: uppercase; border: 3px solid #fff; box-shadow: 4px 4px 0 #fff; transition: all 0.2s; text-align: center; font-weight: bold;}
-.hero-btn-primary { background: #0f0; color: #000; border-color: #0f0; box-shadow: 6px 6px 0 #000, 0 0 15px rgba(0,255,0,0.5); animation: pulseBtn 2s infinite;}
-.hero-btn-primary:hover { transform: translate(-2px, -2px); box-shadow: 8px 8px 0 #000, 0 0 20px rgba(0,255,0,0.8); }
-.hero-btn-secondary { background: var(--accent-1); color: #fff; border-color: var(--card-border); box-shadow: 4px 4px 0 var(--accent-2); }
+.hero-prompt { font-family: var(--font-retro); font-size: clamp(10px, 3vw, 14px); color: var(--accent-3); animation: blink 1s steps(2, start) infinite; z-index: 10; text-align: center; padding: 0 10px; line-height: 1.5; }
+@keyframes blink { to { visibility: hidden; } }
+
+/* Hero CTA Adjustments */
+.hero-cta-group { z-index: 20; display: flex; flex-direction: column; align-items: center; gap: 14px; margin-top: 30px; width: 90%; max-width: 350px;}
+.hero-enter-btn { font-family: var(--font-retro); font-size: clamp(10px, 3vw, 13px); background: #0f0; color: #000; border: 3px solid #fff; padding: 18px 20px; box-shadow: 4px 4px 0 var(--accent-1), 0 0 15px rgba(0,255,0,0.5); cursor: pointer; text-transform: uppercase; transition: all 0.2s; width: 100%; text-align: center; font-weight: bold; animation: pulseBtn 2s infinite;}
+.hero-enter-btn:hover { transform: translate(-2px,-2px); box-shadow: 6px 6px 0 var(--accent-1), 0 0 20px rgba(0,255,0,0.8); }
+.hero-enter-btn:active { transform: translate(2px,2px); box-shadow: 0 0 0 transparent; }
+.hero-game-link { font-family: var(--font-retro); font-size: 9px; color: var(--accent-2); background: #000; border: 2px solid var(--accent-2); padding: 12px; cursor: pointer; letter-spacing: 0.5px; width: 100%; transition: all 0.2s; text-align: center;}
+.hero-game-link:hover { background: var(--accent-2); color: #000; }
 @keyframes pulseBtn { 0% { transform: scale(1); } 50% { transform: scale(1.03); } 100% { transform: scale(1); } }
+
+.hero-sound-toggle { position: fixed; top: 16px; right: 16px; z-index: 30; font-family: var(--font-retro); font-size: 8px; background: rgba(0,0,0,0.7); color: var(--accent-2); border: 2px solid var(--accent-2); padding: 8px 10px; cursor: pointer; backdrop-filter: blur(5px);}
+
 #sock-rain { position: absolute; top: 0; left: 0; width: 100%; height: 100%; overflow: hidden; pointer-events: none; z-index: 1;}
 .falling-sock { position: absolute; top: -10%; font-size: 35px; animation: dropSock linear infinite; filter: drop-shadow(0 0 10px var(--accent-1)); }
 @keyframes dropSock { 0% { transform: translateY(-10vh) rotate(0deg); } 100% { transform: translateY(110vh) rotate(360deg); } }
 
+/* --- REUSABLE RETRO BOX --- */
 .retro-box { width: 90%; max-width: 500px; text-align: center; padding: 2.5rem 1.5rem; background: var(--card-bg); border: 4px solid var(--card-border); box-shadow: var(--shadow-retro); position: relative; margin: 0 auto; }
 .retro-box::before { content: ''; position: absolute; top: 5px; left: 5px; right: 5px; bottom: 5px; border: 1px dashed var(--accent-2); pointer-events: none; }
 .retro-btn { padding: 12px 15px; background: var(--accent-1); color: #fff; border: 3px solid var(--card-border); font-family: var(--font-retro); font-size: 10px; cursor: pointer; transition: all 0.2s; box-shadow: 4px 4px 0 var(--accent-2); text-transform: uppercase; margin: 5px 0; width: 100%; display: block; }
 .retro-btn:hover { background: var(--accent-2); color: #000; box-shadow: 4px 4px 0 var(--accent-1); transform: translate(-2px, -2px); }
 .retro-btn:active { transform: translate(2px, 2px); box-shadow: 0 0 0 transparent; }
 
+/* --- SCREEN 2: TIC-TAC-TOE --- */
 .ttt-board { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; width: 100%; max-width: 280px; margin: 20px auto; aspect-ratio: 1/1; background: var(--card-border); border: 4px solid var(--card-border); box-shadow: 0 0 20px rgba(0,0,0,0.5); }
 .ttt-cell { background: var(--bg); display: flex; align-items: center; justify-content: center; font-family: var(--font-retro); font-size: clamp(30px, 8vw, 40px); cursor: pointer; transition: background 0.2s; }
 .ttt-cell:hover { background: rgba(255,255,255,0.1); }
@@ -107,9 +125,11 @@ body {
 #ttt-status { font-family: var(--font-retro); font-size: 10px; color: var(--accent-3); margin-top: 10px; line-height: 1.6; animation: pulseLogo 1.5s infinite alternate;}
 .btn-group { display: flex; flex-direction: column; gap: 5px; margin-top: 15px; }
 
+/* --- SCREEN 3: GATE / HACKING --- */
 .lock-icon { font-size: 40px; margin-bottom: 15px; filter: drop-shadow(0 0 10px var(--accent-1)); transition: all 0.5s ease; }
 .gate-title { font-family: var(--font-retro); font-size: 16px; line-height: 1.5; margin-bottom: 15px; color: var(--accent-1); text-shadow: 2px 2px 0 #000; transition: color 0.5s ease; }
 .gate-sub { font-size: 11px; font-weight: 800; font-family: var(--font-retro); color: var(--text-muted); margin-bottom: 1.5rem; line-height: 1.8;}
+
 .input-row { display: flex; flex-direction: row; gap: 10px; margin-bottom: 15px; justify-content: center; align-items: center;}
 .retro-input, .retro-select { flex: 1; min-width: 0; padding: 12px; background: #000; border: 3px solid var(--card-border); color: #0f0; font-family: var(--font-retro); font-size: 10px; outline: none; box-shadow: inset 0 0 10px rgba(0,255,0,0.2); text-transform: uppercase; width: 100%;}
 .retro-input:focus, .retro-select:focus { border-color: var(--accent-2); box-shadow: inset 0 0 15px var(--accent-2); }
@@ -117,6 +137,7 @@ body {
 .hacked-text { color: #0f0 !important; text-shadow: 0 0 15px #0f0 !important; }
 .hacked-icon { filter: drop-shadow(0 0 15px #0f0) !important; transform: scale(1.2); }
 
+/* --- SCREEN 4 & 6: CHECKOUT & SUCCESS UI --- */
 #checkout-screen { overflow-y: auto; padding: 20px 0; justify-content: flex-start; -webkit-overflow-scrolling: touch; }
 .checkout-form { display: flex; flex-direction: column; gap: 12px; text-align: left; margin-top: 5px;}
 .checkout-form label { font-size: 9px; font-family: var(--font-retro); color: var(--accent-2); margin-top: 6px;}
@@ -132,51 +153,59 @@ body {
 .bkash-info-box { background: rgba(255, 0, 127, 0.15); border: 2px dashed var(--accent-1); padding: 12px; border-radius: 4px; margin-top: 5px; display: flex; flex-direction: column; gap: 8px; }
 .bkash-number { font-family: var(--font-retro); font-size: 11px; color: var(--accent-3); text-shadow: 0 0 8px var(--accent-3); letter-spacing: 1px; }
 
+/* Trust Badges under Checkout */
 .trust-badges { display: flex; justify-content: center; gap: 10px; font-size: 8px; font-family: var(--font-retro); color: var(--text-muted); margin-top: 10px; text-align: center; flex-wrap: wrap;}
-.trust-badges span { background: #000; padding: 6px; border: 1px solid #333; color: #0f0;}
+.trust-badges span { background: #000; padding: 6px; border: 1px solid #333; color: #0f0; }
 
 .stat-row { font-family: var(--font-retro); font-size: 10px; margin-bottom: 15px; color: var(--accent-2); line-height: 1.5; text-align: left; }
 .stat-val { color: #0f0; text-shadow: 0 0 8px #0f0; }
 .score-tally { font-family: var(--font-retro); font-size: 24px; color: var(--accent-3); margin: 30px 0; text-shadow: 0 0 15px var(--accent-3); letter-spacing: 2px; }
 .blink-text { animation: blink 1s steps(2, start) infinite; }
 
+/* --- SCREEN 5: CATALOG UI --- */
 #catalog { display: none; min-height: 100vh; opacity: 0; transform: translateY(100px); transition: all 0.8s cubic-bezier(0.2, 1, 0.3, 1); padding-bottom: 50px; z-index: 10; position: relative;}
 #catalog.visible { opacity: 1; transform: translateY(0); }
 
-/* Sticky Countdown Header */
+/* Sticky Header with Timer */
 .cat-header { background: var(--card-bg); border-bottom: 4px solid var(--card-border); padding: 1rem 1.5rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 15px; position: sticky; top: 0; z-index: 100; box-shadow: var(--shadow-retro); }
 .header-brand { display: flex; flex-direction: column; gap: 5px;}
 .header-logo { font-family: var(--font-retro); font-size: clamp(14px, 4vw, 18px); color: var(--accent-2); text-shadow: 2px 2px 0 var(--accent-1); }
-.timer-container { font-family: var(--font-retro); font-size: 10px; color: #ff0055; background: #000; padding: 6px 10px; border: 2px solid #ff0055; animation: pulseBorder 1s infinite alternate; white-space: nowrap;}
+.timer-container { font-family: var(--font-retro); font-size: 10px; color: #ff0055; background: #000; padding: 6px 10px; border: 2px solid #ff0055; animation: pulseBorder 1s infinite alternate; white-space: nowrap; font-weight: bold;}
 @keyframes pulseBorder { 0% { box-shadow: 0 0 5px #ff0055; } 100% { box-shadow: 0 0 15px #ff0055; } }
 
 .welcome-pill { display: flex; align-items: center; flex-wrap: wrap; gap: 10px; border: 2px solid var(--accent-3); padding: 6px 10px; font-family: var(--font-retro); font-size: 9px; color: var(--accent-3); background: #000; }
-.theme-toggle-btn { background: var(--bg); color: var(--text); font-weight: 900; font-family: var(--font-retro); font-size: 8px; text-transform: uppercase; cursor: pointer; border: 2px solid var(--accent-3); padding: 4px 8px; box-shadow: 2px 2px 0 var(--accent-3); transition: all 0.2s; margin: 0; }
+.theme-toggle-btn { background: var(--bg); color: var(--text); font-weight: 900; font-family: var(--font-retro); font-size: 8px; text-transform: uppercase; cursor: pointer; border: 2px solid var(--accent-3); padding: 6px 10px; box-shadow: 2px 2px 0 var(--accent-3); transition: all 0.2s; margin: 0; }
+.theme-toggle-btn:active { transform: translate(2px, 2px); box-shadow: none; }
+.theme-toggle-btn:hover { background: var(--accent-3); color: #000; }
 
 .ticker-wrap { width: 100%; overflow: hidden; background: #000; color: var(--accent-3); padding: 8px 0; font-family: var(--font-retro); font-size: 10px; border-bottom: 2px dashed var(--accent-3); white-space: nowrap; }
 .ticker { display: inline-block; white-space: nowrap; animation: ticker 25s linear infinite; }
 .ticker span { margin-right: 30px; }
 @keyframes ticker { 0% { transform: translate3d(0, 0, 0); } 100% { transform: translate3d(-50%, 0, 0); } }
 
-.disc-bar { background: var(--accent-1); padding: 10px 1rem; text-align: center; font-size: 10px; font-family: var(--font-retro); color: #fff; line-height: 1.6; border-bottom: 4px solid #000; text-transform: uppercase;}
+.disc-bar { background: var(--accent-1); padding: 10px 1rem; text-align: center; font-size: 10px; font-family: var(--font-retro); color: #fff; line-height: 1.6; border-bottom: 4px solid #000; }
 
 .cat-body { max-width: 1200px; margin: 0 auto; padding: 3rem 1.5rem 0; }
 .section-label { font-family: var(--font-retro); font-size: 14px; color: var(--text); margin-bottom: 2rem; text-shadow: 2px 2px 0 var(--accent-1); line-height: 1.4; }
 
+/* --- HIGH-CONVERTING PRODUCT CARDS --- */
 .cam-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 30px; }
 .cam-card { background: var(--card-bg); border: 4px solid var(--card-border); position: relative; transition: all 0.2s ease; box-shadow: 6px 6px 0 var(--accent-1); display: flex; flex-direction: column;}
 @media (hover: hover) { .cam-card:hover { transform: translate(-4px, -4px); box-shadow: 10px 10px 0 var(--accent-2); } .cam-card:hover .cam-img { transform: scale(1.08); filter: contrast(110%); } }
 
 .img-wrapper { width: 100%; height: 220px; border-bottom: 4px solid var(--card-border); background: #ffffff; overflow: hidden; position: relative;}
 .cam-img { width: 100%; height: 100%; object-fit: contain; padding: 10px; transition: transform 0.5s; }
-.live-watch { position: absolute; top: 10px; left: 10px; background: rgba(0,0,0,0.8); color: #fff; font-family: var(--font-main); font-weight: 800; font-size: 9px; padding: 6px 10px; border: 1px solid var(--accent-2); display: flex; align-items: center; gap: 5px;}
+
+/* Live Watcher Tag */
+.live-watch { position: absolute; top: 10px; left: 10px; background: rgba(0,0,0,0.8); color: #fff; font-family: var(--font-main); font-weight: 800; font-size: 9px; padding: 6px 10px; border: 1px solid var(--accent-2); display: flex; align-items: center; gap: 5px; z-index: 5;}
 .dot { width: 6px; height: 6px; background: red; border-radius: 50%; animation: blink 1s infinite; }
 
 .cam-info { padding: 15px; flex-grow: 1; display: flex; flex-direction: column; }
 .cam-name { font-family: var(--font-retro); font-size: 13px; margin-bottom: 4px; color: var(--accent-2); text-shadow: 1px 1px 0 #000; line-height: 1.4;}
 .cam-stars { font-size: 10px; color: #ffea00; margin-bottom: 10px; font-family: var(--font-main); font-weight: 800;}
-.cam-vibe { font-size: 11px; font-weight: 900; color: var(--text-muted); margin-bottom: 12px; text-transform: uppercase;}
+.cam-vibe { font-size: 12px; font-weight: 900; color: var(--text-muted); margin-bottom: 12px; text-transform: uppercase;}
 
+/* Hype Meter */
 .hype-meter-container { background: #000; border: 1px solid #333; height: 8px; width: 100%; margin-bottom: 5px; position: relative; }
 .hype-meter-fill { background: var(--accent-1); height: 100%; width: 85%; }
 .hype-text { font-family: var(--font-main); font-size: 9px; font-weight: 800; color: var(--accent-1); text-align: right; margin-bottom: 15px; }
@@ -203,9 +232,10 @@ body {
 .page-nav { display: flex; gap: 10px; padding: 0 1rem; margin-top: 2rem; justify-content: center; flex-wrap: wrap;}
 .page-tab { background: var(--bg); border: 3px solid var(--card-border); padding: 10px 15px; font-family: var(--font-retro); font-size: 9px; color: var(--text); cursor: pointer; box-shadow: 4px 4px 0 var(--card-border); transition: all 0.2s; line-height: 1.4;}
 .page-tab.active { background: var(--accent-1); color: #fff; transform: translate(2px, 2px); box-shadow: 2px 2px 0 var(--card-border); }
+
 .footer { text-align: center; padding: 3rem 1.5rem; font-family: var(--font-retro); font-size: 9px; color: var(--text-muted); border-top: 2px dashed var(--card-border); margin-top: 3rem; line-height: 2;}
 
-/* --- SOCIAL PROOF & FLOATING CONTACT --- */
+/* --- SOCIAL PROOF TOAST & FLOATING BUTTONS --- */
 .floating-actions { position: fixed; bottom: 20px; right: 20px; display: flex; flex-direction: column; gap: 15px; z-index: 9999; }
 .float-btn { width: 50px; height: 50px; display: flex; align-items: center; justify-content: center; border: 3px solid var(--card-border); cursor: pointer; box-shadow: 4px 4px 0 var(--card-border); transition: all 0.2s; border-radius: 50%; }
 .float-btn:active { transform: translate(4px, 4px); box-shadow: 0 0 0 transparent; }
@@ -215,7 +245,7 @@ body {
 
 #social-proof-toast { position: fixed; bottom: 20px; left: 20px; background: var(--card-bg); border: 3px solid var(--accent-2); padding: 12px 15px; display: flex; align-items: center; gap: 12px; z-index: 9998; box-shadow: 6px 6px 0 rgba(0,0,0,0.5); transform: translateX(-150%); transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); max-width: 300px;}
 #social-proof-toast.show { transform: translateX(0); }
-.toast-img { width: 40px; height: 40px; object-fit: cover; border: 2px solid #fff; background: #fff;}
+.toast-img { width: 45px; height: 45px; object-fit: cover; border: 2px solid #fff; background: #fff;}
 .toast-text { font-family: var(--font-main); font-size: 10px; line-height: 1.4; color: #fff; font-weight: 700;}
 .toast-time { font-size: 8px; color: var(--accent-3); font-family: var(--font-retro); margin-top: 4px;}
 
@@ -239,25 +269,27 @@ body {
   <div class="shape triangle"></div>
   <div class="shape squiggle"></div>
 </div>
+
 <!-- 80s Perspective Grid -->
 <div class="synth-grid"></div>
 
-<!-- SCREEN 1: HERO SECTION (Optimized for quick sales) -->
+<!-- SCREEN 1: HERO SECTION -->
+<button class="hero-sound-toggle" id="soundToggle" onclick="toggleSound(event)">🔇 SOUND: OFF</button>
 <div id="hero-screen" class="screen-layer">
   <div id="sock-rain"></div>
   <h1 class="hero-logo">SILLY SOCKS</h1>
   <p class="hero-prompt">>> THE VAULT IS OPEN <<</p>
   
-  <div class="hero-actions">
-    <div class="hero-btn hero-btn-primary" onclick="skipToCatalog()">🚀 QUICK BUY (ENTER SHOP)</div>
-    <div class="hero-btn hero-btn-secondary" onclick="enterGame()">🎮 PLAY MINIGAME FOR 10% OFF</div>
+  <div class="hero-cta-group">
+    <div class="hero-enter-btn" onclick="event.stopPropagation(); leaveHero('catalog');">🛒 QUICK BUY (ENTER SHOP)</div>
+    <div class="hero-game-link" onclick="event.stopPropagation(); leaveHero('game');">🎮 OR PLAY MINIGAME FOR 10% OFF</div>
   </div>
 </div>
 
 <!-- SCREEN 2: TIC-TAC-TOE BATTLE SECTION -->
 <div id="tictactoe-screen" class="screen-layer">
   <div class="retro-box">
-    <div class="gate-title" style="margin-bottom: 20px;">BEAT THE BOT TO UNLOCK VIP</div>
+    <div class="gate-title" style="margin-bottom: 20px;">BEAT THE BOT TO UNLOCK</div>
     <p class="gate-sub" id="ttt-status">PLAYER 1 IS 'X'. YOUR TURN!</p>
     
     <div class="ttt-board" id="ttt-board-container">
@@ -340,8 +372,9 @@ body {
       <label>> PREFERRED PAYMENT METHOD *</label>
       <div class="radio-group">
         <label><input type="radio" name="Payment Method" value="Cash on Delivery (COD)" required onclick="toggleBkash(false)" checked> Cash on Delivery</label>
-        <label><input type="radio" name="Payment Method" value="Bkash" required onclick="toggleBkash(true)"> Bkash</label>
+        <label><input type="radio" name="Payment Method" value="Bkash" required onclick="toggleBkash(true)"> Bkash (pay now)</label>
       </div>
+      <p style="font-size: 10px; color: var(--accent-3); font-weight:800; margin-top:-4px;">💚 PAY VIA BKASH & SKIP THE COD VERIFICATION CALL — ORDER SHIPS FASTER</p>
 
       <div id="bkash-field" class="bkash-info-box" style="display:none;">
         <div class="bkash-number">> SEND MONEY (PERSONAL): 01961515240</div>
@@ -349,17 +382,29 @@ body {
         <input type="text" name="Transaction ID" id="trx-input" class="retro-input" placeholder="ENTER TRX ID..." />
       </div>
 
-      <label>> LEGAL AGREEMENT</label>
-      <div class="tc-box">
-        <strong style="color:#0f0;">1. 100% PARCEL CHECKING ALLOWED BEFORE PAYMENT:</strong> Customers can open and check the product in front of the delivery man to ensure authenticity.<br><br>
-        <strong>2. ORDER MODIFICATION:</strong> We reserve the right to cancel, modify, change the order value, or delay shipments at our sole discretion.<br><br>
-        <strong>3. CASH ON DELIVERY (COD):</strong> All orders are strictly COD. We reserve the right to take legal action if a customer fails or refuses to receive their order upon delivery attempt.<br><br>
-        <strong>4. STRICT 3-DAY WARRANTY:</strong> We provide a 3-day replacement warranty covering ONLY manufacturing defects.<br><br>
-        <strong>5. WARRANTY EXCLUSIONS:</strong> Screen-related issues and ANY physical damage are strictly NOT covered under the warranty policy.
+      <label>> BUYER PROTECTION</label>
+      <div class="checkout-hype-banner" style="margin-bottom:10px; text-align:left; line-height:1.7;">
+        <span style="color:#0f0; font-weight:900;">✅ 100% PARCEL CHECKING ALLOWED BEFORE PAYMENT</span><br>
+        ✅ 3-DAY REPLACEMENT WARRANTY ON MANUFACTURING DEFECTS<br>
+        ✅ ORDERS DISPATCHED WITHIN 24-48H
       </div>
+
+      <details style="margin-bottom:10px;">
+        <summary style="font-family: var(--font-retro); font-size: 9px; color: var(--accent-2); cursor:pointer; padding: 8px 0;">> VIEW FULL TERMS & WARRANTY POLICY</summary>
+        <div class="tc-box" style="margin-top:8px;">
+          <strong>1. ORDER CHANGES:</strong> We may occasionally adjust quantity, size, or dispatch timing on an order and will contact you first if that happens.<br><br>
+          <strong>2. CASH ON DELIVERY:</strong> COD orders are held for you specifically — repeated refusal of COD deliveries may result in future orders from that number requiring advance payment.<br><br>
+          <strong>3. AFTER DELIVERY:</strong> Once an order is delivered in good condition, the customer is responsible for care of the product going forward.<br><br>
+          <strong>4. WARRANTY WINDOW:</strong> Manufacturing defects are replaced free within 3 days of delivery — just message us with a photo/video. Claims outside this window aren't covered.<br><br>
+          <strong>5. NOT COVERED:</strong> Screen issues and physical/accidental damage aren't covered under the warranty.
+        </div>
+      </details>
       
       <label class="checkbox-row">
-        <input type="checkbox" required /> I agree to the Checking Policy & Terms & Conditions.
+        <input type="checkbox" required /> I have read and agree to the Privacy Policy.
+      </label>
+      <label class="checkbox-row">
+        <input type="checkbox" required /> I accept the Checking Policy & Terms & Conditions.
       </label>
 
       <button type="submit" id="submitOrderBtn" class="retro-btn" style="background: var(--accent-3); color: #000; font-size: 12px; margin-top: 15px;">CONFIRM ORDER</button>
@@ -402,6 +447,7 @@ body {
     </div>
     <div class="welcome-pill">
       PLAYER 1: <span id="broName" style="margin: 0 5px;">???</span>
+      <button class="theme-toggle-btn" onclick="openGameFromCatalog()" style="border-color:#ff00ff; color:#ff00ff;">🎮 GOT CODE?</button>
       <button class="theme-toggle-btn" id="themeToggle" onclick="toggleTheme()">[ DAY MODE ]</button>
     </div>
   </header>
@@ -429,14 +475,15 @@ body {
   <div class="cat-body" id="page2Body" style="display:none;">
     <div class="section-label">> INDUSTRIAL AESTHETICS</div>
     <div id="mirrorGrid" class="cam-grid">
+      <!-- Traffic Mirror Hardcoded Card -->
       <div class="cam-card">
         <div class="img-wrapper">
-          <div class="live-watch"><div class="dot"></div> WATCHING: 18</div>
+          <div class="live-watch"><div class="dot"></div> WATCHING: <span class="random-watch">18</span></div>
           <img src="mirror_placeholder.jpg" class="cam-img" alt="Traffic Mirror" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'300\' height=\'200\'><rect width=\'100%\' height=\'100%\' fill=\'#333\'/><text x=\'50%\' y=\'50%\' font-family=\'monospace\' font-size=\'14\' fill=\'#fff\' dominant-baseline=\'middle\' text-anchor=\'middle\'>IMG MISSING</text></svg>'" />
         </div>
         <div class="cam-info">
           <div class="cam-name">CONVEX TRAFFIC MIRROR</div>
-          <div class="cam-stars">⭐⭐⭐⭐⭐ 4.8/5 (92 Reviews)</div>
+          <div class="cam-stars">⭐⭐⭐⭐⭐ 4.9/5 (112 Reviews)</div>
           <div class="cam-vibe">INDUSTRIAL ORANGE / DECOR</div>
           
           <div class="hype-meter-container"><div class="hype-meter-fill" style="width: 78%; background: #0f0;"></div></div>
@@ -475,13 +522,9 @@ body {
 
 <!-- Floating Action Buttons -->
 <div class="floating-actions">
-  <!-- WhatsApp -->
-  <div class="float-btn wa-btn" onclick="window.open('https://wa.me/8801961515240?text=Hi!%20I%20want%20to%20know%20more%20about%20Silly%20Socks%20products.', '_blank')">
-    <svg viewBox="0 0 24 24">
-      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
-    </svg>
+  <div class="float-btn wa-btn" onclick="window.open('https://wa.me/8801961515240?text=Hi!%20I%20have%20a%20question%20about%20Silly%20Socks', '_blank')" aria-label="Chat on WhatsApp">
+    <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M20.52 3.449C18.24 1.245 15.24 0 12.045 0 5.463 0 .104 5.36.101 11.943c0 2.105.548 4.16 1.588 5.976L0 24l6.223-1.632c1.749.955 3.722 1.457 5.727 1.457h.005c6.581 0 11.94-5.359 11.943-11.943.001-3.19-1.24-6.19-3.378-8.433zM12.05 21.785h-.004c-1.786 0-3.54-.48-5.075-1.39l-.365-.216-3.694.968.985-3.6-.238-.375a9.86 9.86 0 01-1.516-5.229c.002-5.462 4.448-9.907 9.911-9.907 2.646 0 5.13 1.03 6.998 2.9a9.834 9.834 0 012.897 6.995c-.003 5.462-4.448 9.854-9.899 9.854z"/></svg>
   </div>
-  <!-- Instagram -->
   <div class="float-btn ig-btn" onclick="window.open('https://www.instagram.com/your.sillysocks/', '_blank')">
     <svg viewBox="0 0 24 24">
       <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 1.76-6.98 6.276-.058 1.281-.072 1.688-.072 4.947s.014 3.666.072 4.947c.2 4.515 2.622 6.076 6.98 6.276 1.28.058 1.687.072 4.947.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-1.76 6.979-6.276.059-1.281.073-1.689.073-4.947 0-3.258-.014-3.667-.072-4.947-.196-4.516-2.624-6.076-6.979-6.276-1.28-.058-1.688-.072-4.948-.072zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
@@ -506,6 +549,7 @@ let audioCtx;
 let isPoweredOn = false;
 let isBgmRunning = false;
 let appliedBroCode = "";
+let soundEnabled = false;
 
 function initAudio() {
   if (isPoweredOn) return;
@@ -513,7 +557,24 @@ function initAudio() {
   const AudioContext = window.AudioContext || window.webkitAudioContext;
   audioCtx = new AudioContext();
   if(audioCtx.state === 'suspended') audioCtx.resume();
-  startBGM();
+}
+
+document.body.addEventListener('click', initAudio, {once:true});
+document.body.addEventListener('touchstart', initAudio, {once:true});
+
+function toggleSound(e) {
+  if (e) e.stopPropagation();
+  initAudio();
+  soundEnabled = !soundEnabled;
+  const btn = document.getElementById('soundToggle');
+  if (soundEnabled) {
+    btn.textContent = '🔊 SOUND: ON';
+    startBGM();
+    playTone(600, 'square', 0.1);
+  } else {
+    btn.textContent = '🔇 SOUND: OFF';
+    stopBGM();
+  }
 }
 
 function startBGM() {
@@ -546,16 +607,18 @@ function playTone(freq, type, duration, vol = 0.05) {
   osc.start(); osc.stop(audioCtx.currentTime + duration);
 }
 
-function soundClick() { playTone(600, 'square', 0.1); }
-function soundBot() { playTone(400, 'square', 0.1, 0.03); }
-function soundError() { playTone(150, 'sawtooth', 0.4, 0.1); }
+function soundClick() { if(soundEnabled) playTone(600, 'square', 0.1); }
+function soundBot() { if(soundEnabled) playTone(400, 'square', 0.1, 0.03); }
+function soundError() { if(soundEnabled) playTone(150, 'sawtooth', 0.4, 0.1); }
 function soundWin() {
+  if(!soundEnabled) return;
   setTimeout(() => playTone(440, 'sine', 0.2), 0);
   setTimeout(() => playTone(554, 'sine', 0.2), 150);
   setTimeout(() => playTone(659, 'sine', 0.4), 300);
   setTimeout(() => playTone(880, 'sine', 0.6), 450);
 }
 function soundHack() {
+  if(!soundEnabled) return;
   for(let i=0; i<15; i++) { setTimeout(() => playTone(400 + (i*50), 'square', 0.05, 0.03), i*60); }
 }
 
@@ -590,7 +653,8 @@ function createSockRain() {
 }
 createSockRain();
 
-// --- 2. Navigation Routing ---
+// --- Navigation Routing ---
+let hasEnteredHero = false;
 const heroScreen = document.getElementById('hero-screen');
 const tttScreen = document.getElementById('tictactoe-screen');
 const gate = document.getElementById('gate');
@@ -598,16 +662,30 @@ const catalog = document.getElementById('catalog');
 const checkoutScreen = document.getElementById('checkout-screen');
 const successScreen = document.getElementById('success-screen');
 
-function enterGame() {
+function leaveHero(target) {
+  if (hasEnteredHero) return;
+  hasEnteredHero = true;
+  target = target || 'catalog';
+
   initAudio();
   soundClick();
+
   heroScreen.style.transform = 'translateY(-100vh) scale(1.5)';
   heroScreen.style.opacity = '0';
-  tttScreen.style.display = 'flex';
-  setTimeout(() => {
-    heroScreen.style.display = 'none';
-    tttScreen.classList.add('visible');
-  }, 600);
+  document.getElementById('soundToggle').style.display = 'none';
+
+  if (target === 'game') {
+    tttScreen.style.display = 'flex';
+    setTimeout(() => {
+      heroScreen.style.display = 'none';
+      tttScreen.classList.add('visible');
+    }, 600);
+  } else {
+    setTimeout(() => {
+      heroScreen.style.display = 'none';
+      skipToCatalog();
+    }, 500);
+  }
 }
 
 // --- Tic-Tac-Toe Game Logic ---
@@ -680,30 +758,42 @@ function resetBoard() {
   document.getElementById('resetTttBtn').style.display = "none";
 }
 
-// --- DIRECT SKIP TO CATALOG ---
-function skipToCatalog() {
-  initAudio();
+function openGameFromCatalog() {
   soundClick();
-  stopBGM();
-  
-  // Hide whatever screen is active
-  heroScreen.style.display = "none";
-  tttScreen.style.display = "none";
-  gate.style.display = "none";
-  
-  document.body.style.overflowY = 'auto';
-  catalog.style.display = "block";
-  document.getElementById("broName").textContent = "GUEST";
-  renderLeaderboard();
-  
+  catalog.classList.remove('visible');
+  catalog.style.opacity = '0';
   setTimeout(() => {
-    catalog.classList.add("visible");
-    window.scrollTo({top: 0, behavior: 'smooth'});
-    startSocialProofTimer(); // Start the CRO popups
-  }, 50);
+    catalog.style.display = 'none';
+    document.body.style.overflowY = 'hidden';
+    tttScreen.style.display = 'flex';
+    tttScreen.style.opacity = '0';
+    tttScreen.style.transform = 'scale(0.8)';
+    setTimeout(() => { tttScreen.classList.add('visible'); tttScreen.style.pointerEvents = 'auto'; }, 30);
+  }, 400);
 }
 
-// --- Leaderboard ---
+function skipToCatalog() {
+  soundClick();
+  stopBGM();
+  tttScreen.style.opacity = "0";
+  tttScreen.style.transform = "scale(0.5)";
+  tttScreen.style.pointerEvents = "none";
+  document.body.style.overflowY = 'auto';
+  
+  setTimeout(() => {
+    tttScreen.style.display = "none";
+    catalog.style.display = "block";
+    document.getElementById("broName").textContent = "GUEST";
+    renderLeaderboard();
+    
+    setTimeout(() => {
+      catalog.classList.add("visible");
+      window.scrollTo({top: 0, behavior: 'smooth'});
+      startSocialProofTimer(); // Start the CRO popups
+    }, 50);
+  }, 600);
+}
+
 function updateLeaderboard(name) {
   let localLb = JSON.parse(localStorage.getItem('sillySocksLB') || '[]');
   let globalLb = ["SHIHAB", "SIAM", "ABID", "MADDIE", "MAMUN"];
@@ -838,7 +928,7 @@ function updateCheckoutSavingsBanner() {
   banner.innerText = `⚡ YOU ARE SAVING ৳${savings} TODAY + FREE SHIPPING ⚡`;
 }
 
-// --- SECURE CHECKOUT LOGIC FOR CAMERA GEAR ---
+// --- SECURE CHECKOUT LOGIC ---
 function openCheckout(itemColor, isWithSD) {
   soundClick();
   document.getElementById('catalog').style.opacity = "0";
@@ -881,7 +971,6 @@ function openCheckout(itemColor, isWithSD) {
   }, 400);
 }
 
-// --- SECURE CHECKOUT LOGIC FOR MIRROR ---
 function openCheckoutMirror() {
   soundClick();
   document.getElementById('catalog').style.opacity = "0";
@@ -953,9 +1042,9 @@ function animateScore() {
     if(score >= target) {
       score = target;
       clearInterval(interval);
-      playTone(880, 'sine', 0.5); // Final Ding
+      if(soundEnabled) playTone(880, 'sine', 0.5);
     } else {
-      playTone(400 + (score % 200), 'square', 0.02, 0.01); 
+      if(soundEnabled) playTone(400 + (score % 200), 'square', 0.02, 0.01); 
     }
     scoreObj.innerText = "SCORE: " + score.toString().padStart(4, '0');
   }, 30);
@@ -1089,7 +1178,6 @@ function updatePrice(radio, index) {
   document.getElementById('priceRow' + index).innerHTML = getPriceHTML(isWithSD);
 }
 
-// --- Mirror Toggle Logic ---
 function updateMirrorPrice(radio) {
   var priceRow = document.getElementById('mirrorPriceRow');
   if(radio.value === '30cm') {
@@ -1099,7 +1187,6 @@ function updateMirrorPrice(radio) {
   }
 }
 
-// --- Page Tabs Logic ---
 function showPage(page) {
   soundClick();
   document.getElementById('tab1').className = 'page-tab' + (page === 1 ? ' active' : '');
@@ -1123,14 +1210,13 @@ function showPage(page) {
 // --- COUNTDOWN TIMER LOGIC ---
 function startCountdown() {
   let timerElement = document.getElementById("top-timer");
-  // Set fake deadline for 4 hours from load to manufacture urgency
   let endTime = new Date().getTime() + (4 * 60 * 60 * 1000) + (35 * 60 * 1000); 
 
   setInterval(function() {
     let now = new Date().getTime();
     let distance = endTime - now;
     
-    if(distance < 0) { endTime = new Date().getTime() + (4 * 60 * 60 * 1000); distance = endTime - now; } // Reset if hit 0
+    if(distance < 0) { endTime = new Date().getTime() + (4 * 60 * 60 * 1000); distance = endTime - now; } 
 
     let hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
     let minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
@@ -1142,34 +1228,28 @@ function startCountdown() {
 startCountdown();
 
 // --- SOCIAL PROOF NOTIFICATION LOGIC ---
-const buyers = ["Siam", "Abid", "Rifah", "Tasin", "Mafruha", "Labby", "Azha", "Farhan", "Nafisa"];
+const buyers = ["Siam", "Abid", "Rifah", "Tasin", "Mafruha", "Labby", "Azha", "Farhan", "Nafisa", "Aunu", "Faysol"];
 const locations = ["Dhaka", "Chittagong", "Sylhet", "Rajshahi", "Khulna", "Uttara", "Mirpur", "Dhanmondi"];
-const products = camData; 
 
 function startSocialProofTimer() {
   setInterval(showToast, 12000); // Trigger every 12 seconds
 }
 
 function showToast() {
-  // Only show if user is in catalog (not checking out/playing)
   if(document.getElementById('catalog').style.display === "none") return;
   
   const toast = document.getElementById('social-proof-toast');
   const buyer = buyers[Math.floor(Math.random() * buyers.length)];
   const loc = locations[Math.floor(Math.random() * locations.length)];
-  const item = products[Math.floor(Math.random() * products.length)];
-  const time = Math.floor(Math.random() * 12) + 1; // 1-12 mins ago
+  const item = camData[Math.floor(Math.random() * camData.length)];
+  const time = Math.floor(Math.random() * 12) + 1; 
 
   document.getElementById('toast-img-src').src = item.i;
   document.getElementById('toast-msg').innerHTML = `${buyer} from ${loc} just secured the <strong>${item.n}</strong>!`;
   document.getElementById('toast-time').innerText = `${time} min${time > 1 ? 's' : ''} ago`;
 
   toast.classList.add('show');
-  
-  // Hide after 4 seconds
-  setTimeout(() => {
-    toast.classList.remove('show');
-  }, 4000);
+  setTimeout(() => { toast.classList.remove('show'); }, 4000);
 }
 
 updateLeaderboard(""); 
